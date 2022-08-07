@@ -26,91 +26,10 @@ use Illuminate\Support\Facades\URL;
 
 // Route::view('abc'');
 // Route::get('abc','FrontController@abc_func');
-Route::get('home','FrontController@index');
-Route::view('/','frontend.index2');
-//Route::get('/','FrontController@index')->name('home');
-Route::get('get_all_category','FrontController@get_all_category')->name('get_all_category');
-Route::get('get_all_category_mobile','FrontController@get_all_category_mobile')->name('get_all_category_mobile');
-Route::post('cart_add','FrontController@cart_add')->name('cart_add');
-Route::post('cart_add_package','FrontController@cart_add_package')->name('cart_add_package');;
-Route::get('get_cart_count','FrontController@get_cart_count')->name('get_cart_count');
-Route::get('get_cart_box','FrontController@get_cart_box')->name('get_cart_box');
-Route::get('get_cart_data','FrontController@get_cart_data')->name('get_cart_data');
-Route::get('cart_delete/{id}','FrontController@cart_delete')->name('cart_delete');
-Route::get('view_cart','FrontController@view_cart')->name('view_cart');
-Route::get('get_all_cart_info','FrontController@get_all_cart_info');
-Route::post('cart_update','FrontController@cart_update');
-Route::post('cart_update_package','FrontController@cart_update_package');
-Route::get('show_cart_modal/{id}','FrontController@show_cart_modal')->name('show_cart_modal');
-Route::get('show_package_modal/{id}','FrontController@show_package_modal');
-Route::get('product_details/{id}','FrontController@product_details');
-Route::view('shop2','frontend.shop2');
-Route::get('shop','FrontController@shop');
-Route::get('update_image','FrontController@update_image');
-
-//User Auth Start
-Route::get('send_otp', function() {
-    return view('auth.otp');
-    // return what you want
-});
-Route::get('login', function () {
-    return view('auth.register');
-})->name('login');
-
-Route::post('send_otp','AuthController@send_otp')->name('send_otp');
-Route::post('submit_otp','AuthController@submit_otp')->name('submit_otp');
-Route::get('logout','AuthController@logout')->name('logout');
-Route::view('otp','auth.save_name');
-Route::post('submit_user_information','AuthController@submit_user_information')->name('submit_user_information');
-
-//User Auth End
 
 
 
-
-
-
-Route::get('order_tracking', function () {
-    return view('frontend.order_tracking');
-});
-Route::get('package_product/{id}','FrontController@package_product');
-Route::get('view_all/{type}','FrontController@view_all_product')->name('view_all');
-Route::get('get_all_product_view_all/{type}','FrontController@get_all_product_view_all');
-Route::get('view_all','FrontController@view_alll_category_product')->name('view_all_product');
-Route::post('search_product','FrontController@search_product')->name('search_product');
-Route::get('get_all_homepage_section/{type}','FrontController@get_all_homepage_section');
-
-Route::post('checkout','FrontController@checkout')->name('checkout');
-
-Route::group(['middleware' => 'IsLoggedIn'], function()
-{
-    Route::get('checkout','FrontController@checkout_from');
-   //Route::get('checkout','FrontController@checkout');
-   Route::get('get_all_address','FrontController@get_all_address');
-   Route::post('add_address','FrontController@add_address');
-   Route::get('delete_address/{id}','FrontController@delete_address');
-   Route::post('update_address','FrontController@update_address');
-   Route::post('place_order','FrontController@place_order')->name('place_order');
-   Route::get('edit_address/{id}','FrontController@edit_address');
-   Route::get('order_list','FrontController@order_list');
-   Route::post('view_order_details','FrontController@view_order_details')->name('view_order_details');
-
-  Route::post('cancel_order','FrontController@cancel_order')->name('cancel_order');
-
-});
-
-
-
-
-
-
-
-Route::view('admin_login','admin.auth.login');
-//Route::view('admin_login','frontend.index2');
-Route::post('admin_login','AdminController@login')->name('admin_login');
-
-
-Route::group(['prefix' => 'admin','middleware' => 'IsAdmin'], function()
+Route::group(['middleware' => 'IsAdmin'], function()
 {
     Route::get('/','AdminController@show_dashboard');
     //Route::view('/','frontend.index2');
