@@ -2,9 +2,10 @@
 
 namespace Database\Seeders;
 
-// use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
-
+use App\Models\product_required_filed;
+use App\Models\user;
+use Hash;
 class DatabaseSeeder extends Seeder
 {
     /**
@@ -16,9 +17,18 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+
+
+        user::create([
+            'name'=>'Admin',
+            'email'=>'gogoshopbd@gmail.com',
+            'contact_no'=>'01815822471',
+            'password'=>Hash::make('$1234$')
+
+
+
+        ]);
+
+
     }
 }
