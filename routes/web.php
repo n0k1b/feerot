@@ -27,7 +27,9 @@ use Illuminate\Support\Facades\URL;
 // Route::view('abc'');
 // Route::get('abc','FrontController@abc_func');
 
-
+Route::view('admin_login','admin.auth.login');
+//Route::view('admin_login','frontend.index2');
+Route::post('admin_login','AdminController@login')->name('admin_login');
 
 Route::group(['middleware' => 'IsAdmin'], function()
 {
