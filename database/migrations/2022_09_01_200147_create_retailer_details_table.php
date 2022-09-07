@@ -21,7 +21,7 @@ class CreateRetailerDetailsTable extends Migration
             $table->string('banner_image')->nullable();
             $table->string('address')->nullable();
             $table->string('website_address')->nullable();
-            $table->tinyInt('status')->default(1);
+            $table->tinyInteger('status')->default(1);
             $table->timestamps();
             $table->softDeletes();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
