@@ -52,8 +52,9 @@ Route::group(['middleware' => ['json.response']], function () {
         Route::post('login','AndroidController@login');
         Route::post('registration','AndroidController@registration');
         Route::post('submit_otp','AndroidController@submit_otp');
-         Route::post('get_homepage_content','AndroidController@get_homepage_content');
-       Route::post('get_category','AndroidController@get_category');
+         Route::get('get_homepage_content','AndroidController@get_homepage_content');
+       Route::get('get_category','AndroidController@get_category');
+       Route::post('get_shop_product','AndroidController@get_shop_product');
 
        Route::post('get_search_result','AndroidController@search_product');
 

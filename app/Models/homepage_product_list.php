@@ -8,9 +8,9 @@ use Illuminate\Database\Eloquent\Model;
 class homepage_product_list extends Model
 {
     protected $guarded =[];
-    public function product()
+    public function retailer()
     {
-        return $this->belongsTo('App\Models\product','product_list','id');
+        return $this->belongsTo('App\Models\retailerDetails','retailer_id','id');
     }
     public function homepage_section()
     {

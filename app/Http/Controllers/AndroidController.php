@@ -26,6 +26,7 @@ use App\Models\courier_man;
 use App\Models\user_token;
 use App\Models\warehouse;
 use App\Models\deposit;
+use App\Models\retailerDetails;
 
 use Hash;
 use DB;
@@ -55,16 +56,22 @@ class AndroidController extends Controller
         $data = array();
         $product = array();
           $homepage_section_content = homepage_section::where('status',1)->orderBy('section_order')->get();
-           foreach($homepage_section_content as $section_product)
+           foreach($homepage_section_content as $section_shop)
            {
-             $product = array();
-               foreach($section_product->product_list as $product_list)
+             $shop_list = array();
+               foreach($section_shop->shop as $shop)
                {
-                    $discount_price =$product_list->product->price- floor(($product_list->product->price*$product_list->discount_percentage)/100);
-                   array_push($product,['id'=>$product_list->product->id,'name'=>$product_list->product->name,'image'=>$this->base_url.$product_list->product->thumbnail_image,'unit'=>$product_list->product->unit->unit_quantity." ".$product_list->product->unit->unit_type,'price'=> $product_list->product->price,'discount_price'=>$discount_price,'stock'=>$product_list->product->stock->stock_amount]);
+                   array_push($shop_list,[
+                    'id'=>$shop->retailer->id,
+                    'name'=>$shop->retailer->shop_name,
+                    'thumbnail_image'=>$this->base_url.$shop->retailer->thumbnail_image,
+                    'banner_image'=>$this->base_url.$shop->retailer->banner_image,
+                    'address'=> $shop->retailer->address,
+                    'website_address'=>$shop->retailer->website_address,
+                    ]);
                }
 
-               array_push($data,['section_name'=>$section_product->section_name,'product'=>$product]);
+               array_push($data,['section_name'=>$section_shop->section_name,'shop'=>$shop_list]);
            }
 
         $response = ["data" =>$data,'banner'=>$banner,'status_code'=>200];
@@ -265,7 +272,7 @@ class AndroidController extends Controller
     public function delete_address(Request $request)
     {
         $address_id = $request->address_id;
-        user_address::where('id',$address_id)->update(['delete_status'=>1]);
+        user_address::where('id',$address_id)->delete();
         $response = ['status_code'=>200];
         return response($response, 200);
     }
@@ -273,29 +280,20 @@ class AndroidController extends Controller
     public function search_product(Request $request)
     {
        $input_value = $request->input_value;
+       
         $products = product::where('name','LIKE','%'.$input_value.'%')->where('status',1)->get();
-        $product_list = array();
+        $shops = retailerDetails::where('shop_name','LIKE','%'.$input_value.'%')->where('status',1)->get();
 
-        foreach($products as $product)
-        {
-            $discount_avail = homepage_product_list::where('product_list',$product->id)->first();
-                        if($discount_avail)
-                        {
-                             $discount_price =$product->price - floor(($product->price*$discount_avail->discount_percentage)/100);
-                        }
-                        else
-                        {
-                            $discount_price = $product->price;
-                        }
-            array_push($product_list,['id'=>$product->id,'name'=>$product->name,'image'=>$this->base_url.$product->thumbnail_image,'unit'=>$product->unit->unit_quantity." ".$product->unit->unit_type,'price'=> $product->price,'stock'=>$product->stock->stock_amount,'discount_price'=>$discount_price]);
-
-        }
-
-
-
-            $response = ["product" =>$product_list];
+            $response = ["products" =>$products,'shops'=>$shops];
             return response($response, 200);
 
+    }
+    public function get_shop_product(Request $request){
+        $id = $request->shop_id;
+        $user_id = retailerDetails::find($id)->user->user_id;
+        $products = product::where('user_id',$id)->get();
+        $response = ["products" =>$products];
+        return response($response, 200);
     }
 
     public function add_order(Request $request)
