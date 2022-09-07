@@ -20,7 +20,7 @@ class CreateHomepageProductListsTable extends Migration
             $table->integer('status')->default(1);
             $table->timestamps();
             $table->foreign('homepage_section_id')->references('id')->on('homepage_sections')->onDelete('cascade');
-            $table->foreign('reatiler_id')->references('id')->on('retailer_details')->onDelete('cascade');
+            $table->foreign('retailer_id')->references('id')->on('retailer_details')->onDelete('cascade');
         });
     }
 
