@@ -10,6 +10,7 @@ use Auth;
 use Illuminate\Support\Facades\Validator;
 use App\Models\homepage_section;
 use App\Models\homepage_product_list;
+use App\Models\retailerDetails;
 
 class HomepageContentController extends Controller
 {
@@ -31,7 +32,7 @@ class HomepageContentController extends Controller
     {
         //echo "hello";
                 //
-        $datas = homepage_section::orderBy('section_order')->where('delete_status',0)->get();
+        $datas = homepage_section::orderBy('section_order')->get();
         //echo "hello";
         $i=1;
         $permission = $this->permission();
@@ -55,16 +56,11 @@ class HomepageContentController extends Controller
     {
         $rules = [
             'name'=>'required',
-            'image'=>'required'
-
+        ];
+        $customMessages = [
+            'name.required' => 'Section name field is required.',
 
         ];
-    $customMessages = [
-        'name.required' => 'Section name field is required.',
-        'image.required'=>'Section image field is required'
-
-
-    ];
 
     $validator = Validator::make( $request->all(), $rules, $customMessages );
 
@@ -90,7 +86,7 @@ class HomepageContentController extends Controller
 
     $request
         ->image
-        ->move(public_path('../image/homepage_section_image') , $image);
+        ->move(public_path('image/homepage_section_image') , $image);
     $image = "image/homepage_section_image/" . $image;
     homepage_section::create(['section_name'=>$request->name,'image'=>$image,'section_order'=>$last_insert_id+1]);
         }
@@ -161,7 +157,7 @@ class HomepageContentController extends Controller
         }
         $image = time() . '.' . request()->image->getClientOriginalExtension();
 
-        $request->image->move(public_path('../image/homepage_section_image') , $image);
+        $request->image->move(public_path('image/homepage_section_image') , $image);
         $image = "image/homepage_section_image/" . $image;
 
         homepage_section::where('id',$id)->update(['image'=>$image]);
@@ -172,7 +168,7 @@ class HomepageContentController extends Controller
     public function homepage_section_content_delete(Request $request)
     {
         $id = $request->id;
-        homepage_section::where('id', $id)->update(['delete_status'=>1]);
+        homepage_section::where('id', $id)->delete();
 
     }
 
@@ -190,20 +186,20 @@ class HomepageContentController extends Controller
 
     public function product_add_to_section_ui($id)
     {
-        $product_list = product::where('delete_status',0)->get();
-        foreach($product_list as $product)
+        $retailer_list = retailerDetails::get();
+        foreach($retailer_list as $retailer)
         {
-            $avail = homepage_product_list::where('homepage_section_id',$id)->where('product_list',$product->id)->first();
+            $avail = homepage_product_list::where('homepage_section_id',$id)->where('retailer_id',$retailer->id)->first();
             if($avail)
             {
-                $product['avail'] = 1;
+                $retailer['avail'] = 1;
             }
             else
             {
-                $product['avail'] = 0;
+                $retailer['avail'] = 0;
             }
         }
-        return view('admin.homepage_section.product_section_all',compact('product_list','id'));
+        return view('admin.homepage_section.product_section_all',compact('retailer_list','id'));
     }
 
 
@@ -234,9 +230,9 @@ class HomepageContentController extends Controller
 
 
 
-    public function get_all_homepage_section_product($id)
+    public function get_all_homepage_section_retailer($id)
     {
-      $product_list =   homepage_product_list::where('homepage_section_id',$id)->where('delete_status',0)->get();
+      $product_list =   homepage_product_list::where('homepage_section_id',$id)->get();
         $data = '';
         foreach($product_list as $product)
         {
@@ -315,13 +311,13 @@ class HomepageContentController extends Controller
     public function delete_product_from_section(Request $request)
     {
         $id = $request->id;
-        homepage_product_list::where('id', $id)->update(['delete_status'=>1]);
+        homepage_product_list::where('id', $id)->delete();
 
     }
 
     public function get_all_product_list($id)
     {
-        $product_list = product::where('delete_status',0)->get();
+        $product_list = product::get();
         foreach($product_list as $product)
         {
             $avail = homepage_product_list::where('homepage_section_id',$id)->where('product_list',$product->id)->first();

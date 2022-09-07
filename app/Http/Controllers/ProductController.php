@@ -354,7 +354,7 @@ class ProductController extends Controller
         {
             $image = time() . '.' . request()->thumbnail_image->getClientOriginalExtension();
 
-            $request->thumbnail_image->move(public_path('../image/product_image') , $image);
+            $request->thumbnail_image->move(public_path('image/product_image') , $image);
             $image = "image/product_image/" . $image;
             product::where('id',$product_id)->update(['thumbnail_image'=>$image]);
         }
@@ -394,7 +394,7 @@ class ProductController extends Controller
     {
         //file_put_contents('test.txt',$request." ".time());
         if ($request->ajax()) {
-            $datas = product::with('category:id,name','sub_category:id,category_id,name','unit:id,unit_type,unit_quantity')->where('delete_status',0)->select(['*']);
+            $datas = product::with('category:id,name','sub_category:id,category_id,name','unit:id,unit_type,unit_quantity')->select(['*']);
 
 
             $i=1;
@@ -641,7 +641,7 @@ class ProductController extends Controller
 
 
         }
-        $warehouses = warehouse::where('status',1)->where('delete_status',0)->get();
+        $warehouses = warehouse::where('status',1)->get();
         //file_put_contents('test.txt',json_encode($warehouses));
         return view('admin.product.add',['description_status'=>$description_status,'detail_image_status'=>$detail_image_status,'brand_status'=>$brand_status,'color_status'=>$color_status,'size_status'=>$size_status,'warehouses'=>$warehouses]);
     }
@@ -652,20 +652,14 @@ class ProductController extends Controller
                  'name'=>'required',
                  'price'=>'required',
                  'thumbnail_image'=>'required',
-                
-
-                
 
             ];
         $customMessages = [
             'category_id.required' => 'Category field is required.',
-           
             'name.required' => 'Product name  field is required.',
             'price.required' => 'Product price field is required.',
             'thumbnail_image.required' => 'Product image field is required.',
             
-
-
 
         ];
         $validator = Validator::make( $request->all(), $rules, $customMessages );
@@ -679,78 +673,64 @@ class ProductController extends Controller
         return redirect()->back()->withInput()->with('errors',collect($validator->errors()->all()));
     }
         $image = time() . '.' . request()->thumbnail_image->getClientOriginalExtension();
-
-
-        $request->thumbnail_image->move(public_path('../image/product_image') , $image);
+        $request->thumbnail_image->move(public_path('image/product_image') , $image);
         $image = "image/product_image/" . $image;
-        if($request->description)
-        {
-            $description = $request->description;
+        $image_1 ='';
+        $image_2 ='';
+        $image_3 ='';
+        $image_4 ='';
+
+        if($request->product_detail_image_1){
+            $image_1 = time() . '.' . request()->product_detail_image_1->getClientOriginalExtension();
+            $request->product_detail_image_1->move(public_path('image/product_image') , $image_1);
+            $image_1 = "image/product_image/" . $image_1;
         }
-        else
-        {
-            $description = NULL;
+
+         
+        if($request->product_detail_image_2){
+            $image_2 = time() . '.' . request()->product_detail_image_2->getClientOriginalExtension();
+            $request->product_detail_image_2->move(public_path('image/product_image') , $image_2);
+            $image_2 = "image/product_image/" . $image_2;
         }
+
+         
+        if($request->product_detail_image_3){
+            $image_3 = time() . '.' . request()->product_detail_image_3->getClientOriginalExtension();
+            $request->product_detail_image_3->move(public_path('image/product_image') , $image_3);
+            $image_3 = "image/product_image/" . $image_3;
+        }
+
+         
+        if($request->product_detail_image_4){
+            $image_4 = time() . '.' . request()->product_detail_image_4->getClientOriginalExtension();
+            $request->product_detail_image_4->move(public_path('image/product_image') , $image_4);
+            $image_4 = "image/product_image/" . $image_4;
+        }
+       
         $user_role = Auth::guard('admin')->user()->role;
 
-        if($user_role == 'Admin' || $user_role == 'admin')
-        {
-            $product = product::create(['category_id'=>$request->category_id,'sub_category_id'=>$request->sub_category_id,'brand_id'=>$request->brand_id,'name'=>$request->name,'price'=>$request->price,'thumbnail_image'=>$image,'description'=>$description,'net_weight'=>$request->net_weight,'unit_type'=>$request->unit_type,'unit_quantity'=>$request->unit_quantity]);
+        $product = product::create([
+            'user_id'=> Auth::guard('admin')->user()->id,
+            'category_id'=>$request->category_id,
+            'sub_category_id'=>$request->sub_category_id,
+            'brand_id'=>$request->brand_id,
+            'name'=>$request->name,
+            'price'=>$request->price,
+            'discount_price'=>$request->discount_price,
+            'thumbnail_image'=>$image,
+            'product_detail_image_1'=>$image_1,
+            'product_detail_image_2'=>$image_2,
+            'product_detail_image_3'=>$image_3,
+            'product_detail_image_4'=>$image_4,
+            'size'=>$request->size,
+            'color'=>$request->color,
+            'product_details'=>$request->product_detials,
+            'product_look_after_me'=>$request->product_look_after_me,
+            'product_about_me'=>$request->product_about_me]);
+        
 
-        }
-        else
-        {
-            $product = product::create(['category_id'=>$request->category_id,'sub_category_id'=>$request->sub_category_id,'brand_id'=>$request->brand_id,'name'=>$request->name,'price'=>$request->price,'thumbnail_image'=>$image,'description'=>$description,'net_weight'=>$request->net_weight,'status'=>0,'unit_type'=>$request->unit_type,'unit_quantity'=>$request->unit_quantity]);
-        }
+            return redirect()->route('show-all-product')->with('success','Product Added Successfully');
 
-        //$product = product::create(['category_id'=>$request->category_id,'sub_category_id'=>$request->sub_category_id,'brand_id'=>$request->brand_id,'name'=>$request->name,'price'=>$request->price,'thumbnail_image'=>$image,'description'=>$description,'net_weight'=>$request->net_weight]);
-       $product_id = $product->id;
-       if($request->color)
-       {
-       product_color::create(['product_id'=>$product_id,'color'=>$request->color]);
-       }
-       if($request->size)
-       {
-       product_size::create(['product_id'=>$product_id,'size'=>$request->size]);
-       }
-       //product_unit::create(['product_id'=>$product_id,'unit_quantity'=>$request->unit_quantity,'unit_type'=>$request->unit_type]);
-     // product_stock::create(['product_id'=>$product_id,'stock_amount'=>'0']);
-       //warehouse_product::create(['product_id'=>$product_id,'warehouse_id'=>$request->warehouse_id]);
-
-
-
-       if($request->file('detail_image'))
-       {
-        $increment = 0;
-        foreach ($request->file('detail_image') as $detail_image) {
-            $filesName = time().$increment.'.'.$detail_image->getClientOriginalExtension();
-            $detail_image->move(public_path('../Apartment photoes'), $filesName);
-            product_detail_image::create(['product_id'=>$product_id,'image'=>$detail_image]);
-            //detailes_image::create(['apartment_id'=>$apartment->id,'image'=>$filesName]);
-            //myfile = fopen("courier_manMaskNumbers.txt", "a+") or die("Unable to open file!");
-            //fwrite($myfile,$filesName."\n");
-            $increment++;
-        }
-    }
-    return redirect()->route('show-all-product')->with('success','Product Added Successfully');
-
-    //     if($request->image)
-    //     {
-    //     $image = time() . '.' . request()->image->getClientOriginalExtension();
-
-    // $request
-    //     ->image
-    //     ->move(public_path('../image/product_image') , $image);
-    // $image = "image/product_image/" . $image;
-    // product::create(['name'=>$request->name,'image'=>$image]);
-    //     }
-    //    //file_put_contents('test.txt',$request->name." ".$request->image);
-
-    //    else
-    //    {
-    //     product::create(['name'=>$request->name]);
-    //    }
-    //     return redirect()->route('show-all-product')->with('success','Product Added Successfully');
 
 
     }
@@ -807,7 +787,7 @@ class ProductController extends Controller
         }
         $image = time() . '.' . request()->image->getClientOriginalExtension();
 
-        $request->image->move(public_path('../image/product_image') , $image);
+        $request->image->move(public_path('image/product_image') , $image);
         $image = "image/product_image/" . $image;
 
         product::where('id',$id)->update(['image'=>$image]);
@@ -818,7 +798,7 @@ class ProductController extends Controller
     public function product_content_delete(Request $request)
     {
         $id = $request->id;
-        product::where('id', $id)->update(['delete_status'=>1]);
+        product::where('id', $id)->delete();
 
     }
 

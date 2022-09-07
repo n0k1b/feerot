@@ -33,7 +33,7 @@
                     <div class="card">
                         <div class="card-header">
                             <h4 class="card-title"></h4>
-                            <a href="{{ route('add-brand') }}" class="btn btn-primary">+ Add new</a>
+                            <a href="{{ route('add-retailer') }}" class="btn btn-primary">+ Add new</a>
                         </div>
                         <div class="card-body">
                             <div class="table-responsive">
@@ -41,12 +41,13 @@
                                     <thead>
                                         <tr>
                                             <th>#</th>
-                                            <th>Category Name</th>
-                                            <th>Sub Category Name</th>
-                                            <th>Brand Name</th>
-                                            <th>Brand Details</th>
-                                            <th>Image</th>
-                                            <th>Active Status</th>
+                                            <th>Retiler Name</th>
+                                            <th>Shop/Brand Name</th>
+                                            <th>Thumbnail Image</th>
+                                            <th>Banner Image</th>
+                                            <th>Address</th>
+                                            <th>Website Address</th>
+                                            <th>Status</th>
                                             <th>Action</th>
                                             <th>Image Edit</th>
                                         </tr>
@@ -57,23 +58,25 @@
                                             <?php
                                             $checked = $data->status=='1'?'checked':''; ?>
                                             <td><strong>{{$data->sl_no}}</strong></td>
-                                            <td>{{ $data->sub_category->category->name }}</td>
-                                            <td>{{ $data->sub_category->name }}</td>
-                                            <td>{{$data->brand_name}}</td>
-                                            <td>{{$data->brand_details}}</td>
-                                            <td><img width="100" src="../{{$data->image}}" alt="Not Available" /></td>
+                                            <td>{{ $data->user->name }}</td>
+                                            <td>{{ $data->shop_name }}</td>
+                                            <td><img width="100" src="{{asset('public/'.$data->thumbnail_image)}}" alt="Not Available" /></td>
+                                            <td><img width="100" src="{{asset('public/'.$data->banner_image)}}" alt="Not Available" /></td>
+                                            <td>{{$data->address}}</td>
+                                            <td>{{$data->website_address}}</td>
+                                           
                                             <td>
                                                 <label class="switch">
-                                                    <input type="checkbox" onclick="brand_active_status({{$data->id}})" {{$checked}} />
+                                                    <input type="checkbox" onclick="retailer_active_status({{$data->id}})" {{$checked}} />
                                                     <span class="slider round"></span>
                                                 </label>
                                             </td>
                                             <td>
-                                                <a href="edit_brand_content/{{$data->id}}" class="btn btn-sm btn-primary"><i class="la la-pencil"></i></a>
-                                                <a href="javascript:void(0);" class="btn btn-sm btn-danger" onclick="brand_content_delete({{$data->id}})"><i class="la la-trash-o"></i></a>
+                                                <a href="edit_retailer_content/{{$data->id}}" class="btn btn-sm btn-primary"><i class="la la-pencil"></i></a>
+                                                <a href="javascript:void(0);" class="btn btn-sm btn-danger" onclick="retailer_content_delete({{$data->id}})"><i class="la la-trash-o"></i></a>
                                             </td>
                                             <td>
-                                                <a href="edit_brand_image/{{$data->id}}" class="btn btn-sm btn-info"><i class="la la-pencil"></i></a>
+                                                <a href="edit_retailer_image/{{$data->id}}" class="btn btn-sm btn-info"><i class="la la-pencil"></i></a>
                                             </td>
                                         </tr>
                                         @endforeach

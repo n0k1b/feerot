@@ -15,11 +15,14 @@ class CreateProductBrandsTable extends Migration
     {
         Schema::create('product_brands', function (Blueprint $table) {
             $table->id();
+            $table->bigInteger('category_id')->unsigned();
             $table->bigInteger('sub_category_id')->unsigned();
             $table->string('brand_name');
+            $table->string('brand_details')->nullable();
             $table->integer('status')->default(1);
             $table->string('image')->nullable();
             $table->timestamps();
+            $table->foreign('category_id')->references('id')->on('categories')->onDelete('cascade');
             $table->foreign('sub_category_id')->references('id')->on('sub_categories')->onDelete('cascade');
         });
     }

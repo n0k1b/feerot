@@ -19,12 +19,6 @@
             </div>
         </div>
 
-        <div class="col-sm-3 col-md-3 col-lg-3 p-md-0">
-            <div class="form-group" style="padding-right: 10px;">
-                <label>Discount Percentage</label>
-                <input type="text" class="form-control" name="discount_percentage" id="discount_percentage" />
-            </div>
-        </div>
 
         <div class="col-sm-2 col-md-2 col-lg-2 p-md-0">
             <div class="form-group">

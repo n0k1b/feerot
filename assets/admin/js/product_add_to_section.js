@@ -62,7 +62,7 @@ function show_all_product() {
         contentType: false,
         type: 'get',
 
-        url: '../get_all_homepage_section_product/' + homepage_section_id,
+        url: '../get_all_homepage_section_retailer/' + homepage_section_id,
         success: function(data) {
             var all_data = JSON.parse(data);
             $("#all_section_product").html(all_data.section_product);

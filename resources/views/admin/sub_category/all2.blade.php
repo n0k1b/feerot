@@ -113,7 +113,7 @@
                 name: 'image',
                 render: function(data, type, full, meta){
 
-                return "<img src=../" + data + " width='100px' class='img-thumbnail' />";
+                return "<img src=public/" + data + " width='100px' class='img-thumbnail' />";
                 },
                 orderable: false
             },

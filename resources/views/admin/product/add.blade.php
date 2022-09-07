@@ -50,17 +50,7 @@
                                 </div>
                             </div>
 
-                            <!-- <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="form-group">
-                                    <label>Warehouse</label>
-                                    <select class="form-control select2"  name="warehouse_id">
-                                        <option disabled selected>Select Warehouse</option>
-                                        @foreach ($warehouses as $data )
-                                            <option value="{{ $data->id }}">{{ $data->name }}</option>
-                                        @endforeach
-                                    </select>
-                                </div>
-                            </div> -->
+                        
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="form-group">
                                     <label>Sub Category</label>
@@ -70,6 +60,14 @@
                                 </div>
                             </div>
 
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    <label>Brand</label>
+                                    <select class="form-control select2" id="brand" name="brand_id">
+                                        <option>Select Sub Category First</option>
+                                    </select>
+                                </div>
+                            </div>
 
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="form-group">
@@ -85,6 +83,13 @@
                                 </div>
                             </div>
 
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    <label class="form-label">Discount Price(Optional)</label>
+                                    <input type="number" class="form-control" name="discount_price" placeholder="100" value="{{ old('discount_price') }}" />
+                                </div>
+                            </div>
+
 
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="form-group">
@@ -95,35 +100,12 @@
                                 </div>
                             </div>
 
-                            <!-- <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="form-group">
-                                    <label class="form-label">Product Unit Type</label>
-                                    <input type="text" class="form-control" name="unit_type" placeholder="" value="{{ old('unit_type') }}" />
-                                </div>
-                            </div> -->
-
-                            <!-- <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="form-group">
-                                    <label class="form-label">Product Unit Quantity</label>
-                                    <input type="number" class="form-control" name="unit_quantity" placeholder="1/12" value="{{ old('unit_quantity') }}" />
-                                </div>
-                            </div> -->
-
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="form-group">
-                                    <label class="form-label">Product Stock in Unit</label>
-                                    <input type="number" class="form-control" name="unit_stock" placeholder="100" value="{{ old('unit_stock') }}" />
-                                </div>
-                            </div> 
-
-
                             
 
-                          
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="form-group">
                                     <label class="form-label">Product Size(Optional)</label>
-                                    <input type="text" class="form-control" name="size" value="{{ old('price') }}" />
+                                    <input type="text" class="form-control" name="size" value="{{ old('size') }}" />
                                 </div>
                             </div>
                             
@@ -132,7 +114,7 @@
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="form-group">
                                     <label class="form-label">Product Color(Optional)</label>
-                                    <input type="text" class="form-control" name="color" />
+                                    <input type="text" class="form-control" name="color" value="{{ old('color') }}" />
                                 </div>
                             </div>
                             
@@ -140,22 +122,38 @@
                            
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="form-group">
-                                    <label class="form-label">Product Description(Optional)</label>
-                                    <textarea type="text" class="form-control" name="description"  row='6'></textarea>
+                                    <label class="form-label">Product Details(Optional)</label>
+                                    <textarea type="text" class="form-control" name="product_details"  rows='6'></textarea>
+                                </div>
+                            </div>
+                          
+
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    <label class="form-label">Product Look After Me(Optional)</label>
+                                    <textarea type="text" class="form-control" name="product_look_after_me"  rows='6'></textarea>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    <label class="form-label">Product About Me(Optional)</label>
+                                    <textarea type="text" class="form-control" name="product_about_me"  rows='6'></textarea>
                                 </div>
                             </div>
                             
+                            
 
-                            @if($detail_image_status == 1)
-                            <div class="col-lg-12 col-md-12 col-sm-12">
+                           
+                            <!-- <div class="col-lg-12 col-md-12 col-sm-12">
                                 <div class="form-group">
                                     <div class="field" align="left">
                                         <label class="form-label">Product Detail Image(Optional)</label>
                                         <input type="file" id="multiple_files" name="detail_image[]" multiple />
                                     </div>
                                 </div>
-                            </div>
-                            @endif
+                            </div> -->
+                            
 
                             <div class="col-lg-12 col-md-12 col-sm-12">
                                 <button type="submit" class="btn btn-primary">Submit</button>

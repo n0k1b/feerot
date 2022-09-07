@@ -36,7 +36,12 @@
 							<span class="nav-text">Sub Category</span>
 						</a>
 					</li>
-                  
+
+                    <li><a class="ai-icon" href="{{ route('show-all-brand') }}" aria-expanded="false">
+							<i class="la la-list"></i>
+							<span class="nav-text">Brand</span>
+						</a>
+					</li>
 
 
 					
@@ -107,7 +112,16 @@
                   
                     
 
+                    <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
+						<i class="la la-dropbox"></i>
+						<span class="nav-text">Retailer</span>
+					</a>
+					    <ul aria-expanded="false">
+                            <li><a href="{{ route('show-all-retailer')}}">All Retailer</a></li>
+                            <li><a href="{{ route('add-retailer')}}">Add Retailer</a></li>
 
+                        </ul>
+                    </li>
 
 
               

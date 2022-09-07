@@ -85,7 +85,7 @@ class BannerController extends Controller
 
     $request
         ->image
-        ->move(public_path('../image/banner_image') , $image);
+        ->move(public_path('image/banner_image') , $image);
     $image = "image/banner_image/" . $image;
     banner::create(['image'=>$image,'order'=>$last_insert_id+1]);
 
@@ -136,7 +136,7 @@ class BannerController extends Controller
         }
         $image = time() . '.' . request()->image->getClientOriginalExtension();
 
-        $request->image->move(public_path('../image/banner_image') , $image);
+        $request->image->move(public_path('image/banner_image') , $image);
         $image = "image/banner_image/" . $image;
 
         banner::where('id',$id)->update(['image'=>$image]);

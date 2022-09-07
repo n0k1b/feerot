@@ -107,7 +107,7 @@
 															<a href="edit_homepage-section_image/{{$data->id}}" class="btn btn-sm btn-info"><i class="la la-pencil"></i></a>
 
                                                         </td>
-                                                        <td><button class="btn btn-primary" onclick="location.href='product-add-to-section/{{ $data->id }}'">Show product</button></td>
+                                                        <td><button class="btn btn-primary" onclick="location.href='product-add-to-section/{{ $data->id }}'">Show Shop</button></td>
 													</tr>
 
 												@endforeach

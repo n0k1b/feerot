@@ -75,7 +75,7 @@ public function update_stock()
         if (Auth::guard('admin')->attempt(['email' => $request->email, 'password' => $request->password])) {
 
            // file_put_contents('test2.txt',Auth::guard('admin')->user()->name);
-            return redirect('admin');
+            return redirect('/');
 
          }
          else

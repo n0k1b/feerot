@@ -27,7 +27,7 @@ use Illuminate\Support\Facades\URL;
 // Route::view('abc'');
 // Route::get('abc','FrontController@abc_func');
 
-Route::view('admin_login','admin2.auth.login');
+Route::view('admin_login','admin.auth.login');
 //Route::view('admin_login','frontend.index2');
 Route::post('admin_login','AdminController@login')->name('admin_login');
 
@@ -57,6 +57,19 @@ Route::group(['middleware' => 'IsAdmin'], function()
      Route::post('update_category_image','CategoryController@update_category_image')->name('update_category_image');
 
      //category end
+
+     //brand start
+     Route::get('show-all-brand','BrandController@show_all_brand')->name('show-all-brand');
+     Route::get('add-brand','BrandController@add_brand_ui');
+     Route::post('add-brand','BrandController@add_brand')->name('add-brand');
+     Route::get('brand_active_status_update/{id}','BrandController@brand_active_status_update');
+     Route::get('edit_brand_content/{id}','BrandController@edit_brand_content_ui')->name('edit_brand_content');
+     Route::post('update_brand_content','BrandController@update_brand_content')->name('update_brand_content');
+     Route::get('brand_content_delete/{id}','BrandController@brand_content_delete')->name('brand_content_delete');
+     Route::get('edit_brand_image/{id}','BrandController@edit_brand_image_ui')->name('edit_brand_image');
+     Route::post('update_brand_image','BrandController@update_brand_image')->name('update_brand_image');
+
+     //brand end
 
 
 
@@ -148,12 +161,7 @@ Route::group(['middleware' => 'IsAdmin'], function()
         Route::get('package_content_delete/{id}','PackageController@package_content_delete');
         Route::post('update-product-to-package','PackageController@update_product_to_package');
 
-
-
-
     //package end
-
-
 
 
 
@@ -179,7 +187,6 @@ Route::group(['middleware' => 'IsAdmin'], function()
     Route::post('update_order_status','OrderController@update_order_status')->name('update_order_status');
 
     //order end
-
 
 
 
@@ -223,6 +230,17 @@ Route::group(['middleware' => 'IsAdmin'], function()
    Route::get('area_content_delete/{id}','AreaController@area_content_delete');
    Route::get('area_product/{id}','AreaController@area_content_delete')->name('area_content_delete');
    //area end
+
+   //retailer start
+   Route::get('show-all-retailer','RetailerController@show_all_retailer')->name('show-all-retailer');
+   Route::get('add-retailer','RetailerController@add_retailer_ui');
+   Route::post('add-retailer','RetailerController@add_retailer')->name('add-retailer');
+   Route::get('retailer_active_status_update/{id}','RetailerController@retailer_active_status_update');
+   Route::get('edit_retailer_content/{id}','RetailerController@edit_retailer_content_ui')->name('edit_retailer_content');
+   Route::post('update_retailer_content','RetailerController@update_retailer_content')->name('update_retailer_content');
+   Route::get('retailer_content_delete/{id}','RetailerController@retailer_content_delete');
+   Route::get('retailer_product/{id}','RetailerController@retailer_content_delete')->name('retailer_content_delete');
+   //retailer end
 
      //Expense start
 

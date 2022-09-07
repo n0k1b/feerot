@@ -53,7 +53,12 @@
 											</div>
 										</div>
 
-
+										<div class="col-lg-6 col-md-6 col-sm-6">
+											<div class="form-group">
+												<label class="form-label">Brand Details(Optional)</label>
+												<textarea type="text" class="form-control" name="brand_details"  row='6'></textarea>
+											</div>
+                           				</div>
 
 
 										<div class="col-lg-12 col-md-12 col-sm-12">

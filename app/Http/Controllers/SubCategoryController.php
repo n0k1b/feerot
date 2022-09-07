@@ -29,7 +29,7 @@ class SubCategoryController extends Controller
     {
 
         if ($request->ajax()) {
-            $data = sub_category::where('category_id','!=',NULL)->where('delete_status',0)->get();
+            $data = sub_category::where('category_id','!=',NULL)->get();
             $i=1;
                 foreach($data as $datas)
                 {
@@ -89,14 +89,13 @@ class SubCategoryController extends Controller
             'name'=>'required',
 
             'category_id'=>'required',
-            'image'=>'required',
-
+            
         ];
     $customMessages = [
         'name.required' => 'Sub Category field is required.',
 
         'category_id.required' => 'Category field is required.',
-        'image.required'=>'Image field is required'
+       
 
 
     ];
@@ -114,17 +113,17 @@ class SubCategoryController extends Controller
 
     $request
         ->image
-        ->move(public_path('../image/sub_category_image') , $image);
+        ->move(public_path('image/sub_category_image') , $image);
     $image = "image/sub_category_image/" . $image;
     sub_category::create(['name'=>$request->name,'image'=>$image,'category_id'=>$request->category_id]);
         }
         else{
-            sub_category::create(['name'=>$request->name,'domain_id'=>$request->domain_id]);
+            sub_category::create(['name'=>$request->name,'category_id'=>$request->category_id]);
         }
        //file_put_contents('test.txt',$request->name." ".$request->image);
 
 
-        return redirect()->route('show-all-sub-category')->with('success','category Added Successfully');
+        return redirect()->route('show-all-sub-category')->with('success','Sub Category Added Successfully');
 
 
     }
@@ -182,7 +181,7 @@ class SubCategoryController extends Controller
         }
         $image = time() . '.' . request()->image->getClientOriginalExtension();
 
-        $request->image->move(public_path('../image/sub_category_image') , $image);
+        $request->image->move(public_path('image/sub_category_image') , $image);
         $image = "image/sub_category_image/" . $image;
 
         sub_category::where('id',$id)->update(['image'=>$image]);
@@ -193,14 +192,14 @@ class SubCategoryController extends Controller
     public function sub_category_content_delete(Request $request)
     {
         $id = $request->id;
-        $product_status = product::where('sub_category_id',$id)->where('delete_status',0)->first();
+        $product_status = product::where('sub_category_id',$id)->first();
         if($product_status)
         {
             echo "product_exist";
         }
         else
         {
-        sub_category::where('id', $id)->update(['delete_status'=>1]);
+        sub_category::where('id', $id)->delete();
         }
 
     }

@@ -50,7 +50,7 @@
 										<div class="col-lg-12 col-md-12 col-sm-12">
 											<div class="form-group">
 												<div class="field" align="left">
-													<label class="form-label">Section Image</label>
+													<label class="form-label">Section Image(Optional)</label>
 													<input type="file" id="files" name="image" />
 												  </div>
 											</div>

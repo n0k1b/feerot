@@ -31,7 +31,7 @@ class CategoryController extends Controller
     {
 
         if ($request->ajax()) {
-            $data = category::where('delete_status',0)->get();
+            $data = category::get();
             $i=1;
                 foreach($data as $datas)
                 {
@@ -116,9 +116,9 @@ class CategoryController extends Controller
 
     $request
         ->image
-        ->move(public_path('../image/category_image') , $image);
+        ->move(public_path('image/category_image') , $image);
     $image = "image/category_image/" . $image;
-    category::create(['name'=>$request->name,'image'=>$image,'description'=>$request->description]);
+    category::create(['name'=>$request->name,'image'=>$image]);
         }
         else
         {
@@ -127,7 +127,7 @@ class CategoryController extends Controller
        //file_put_contents('test.txt',$request->name." ".$request->image);
 
 
-        return redirect()->route('show-all-category')->with('success','category Added Successfully');
+        return redirect()->route('show-all-category')->with('success','Category Added Successfully');
 
 
     }
@@ -169,7 +169,7 @@ class CategoryController extends Controller
     {
         $id = $request->id;
 
-        category::where('id', $id)->update(['name' => $request->name,'description'=>$request->description]);
+        category::where('id', $id)->update(['name' => $request->name]);
 
         return redirect()
             ->route('show-all-category')
@@ -191,7 +191,7 @@ class CategoryController extends Controller
         }
         $image = time() . '.' . request()->image->getClientOriginalExtension();
 
-        $request->image->move(public_path('../image/category_image') , $image);
+        $request->image->move(public_path('image/category_image') , $image);
         $image = "image/category_image/" . $image;
 
         category::where('id',$id)->update(['image'=>$image]);
@@ -202,8 +202,8 @@ class CategoryController extends Controller
     public function category_content_delete(Request $request)
     {
         $id = $request->id;
-        $sub_category_status = sub_category::where('category_id',$id)->where('delete_status',0)->first();
-        $product_status = product::where('category_id',$id)->where('delete_status',0)->first();
+        $sub_category_status = sub_category::where('category_id',$id)->first();
+        $product_status = product::where('category_id',$id)->first();
         if($sub_category_status)
         {
             echo "sub_category_exist";
@@ -215,7 +215,7 @@ class CategoryController extends Controller
 
         else
         {
-            category::where('id', $id)->update(['delete_status'=>1]);
+            category::where('id', $id)->delete();
         }
 
        // file_put_contents('test.txt',"hello ".$id);

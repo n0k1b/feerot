@@ -66,7 +66,7 @@
 									</div>
 									<div class="card-body">
 										<div class="table-responsive">
-											<table id="category_table" class="display" style="min-width: 845px">
+											<table id="category_table" class="displa bordered" style="min-width: 845px">
 												<thead>
 													<tr>
 														<th>#</th>
@@ -74,7 +74,6 @@
 
 
 														<th>Image</th>
-                                                        <th>Description</th>
 														<th>Active Status</th>
 
                                                         <th>Action</th>
@@ -126,14 +125,11 @@
                 name: 'image',
                 render: function(data, type, full, meta){
 
-                return "<img src=../" + data + " width='100px' class='img-thumbnail' />";
+                return "<img src=public/" + data + " width='100px' class='img-thumbnail' />";
                 },
                 orderable: false
             },
-            {
-                data:'description',
-                name:'description'
-            },
+          
 
             {
 
