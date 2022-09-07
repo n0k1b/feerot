@@ -35,7 +35,7 @@ use DB;
 class AndroidController extends Controller
 {
     //
-    public $base_url = "http://admin.feerot.com/";
+    public $base_url = "http://admin.feerot.com/public/";
     protected $current_date;
 
      public function __construct()
