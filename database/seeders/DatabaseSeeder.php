@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use Illuminate\Database\Seeder;
 use App\Models\product_required_filed;
-use App\Models\user;
+use App\Models\User;
 use App\Models\role;
 use App\Models\role_permisiion;
 use Hash;
@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
 
 
 
-        user::create([
+        User::create([
             'name'=>'Admin',
             'email'=>'admin@feerot.com',
             'contact_no'=>'1234',
