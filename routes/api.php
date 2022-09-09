@@ -48,7 +48,6 @@ Route::group(['middleware' => ['json.response'],'middleware' => ['auth:api']], f
 
 });
 
-Route::group(['middleware' => ['json.response']], function () {
         Route::post('login','AndroidController@login');
         Route::post('registration','AndroidController@registration');
         Route::post('submit_otp','AndroidController@submit_otp');
@@ -65,7 +64,6 @@ Route::group(['middleware' => ['json.response']], function () {
 
 
 
-});
 Route::post('send_otp','AndroidController@send_otp');
 //test api
 Route::post('get_date','AndroidController@date_test');
