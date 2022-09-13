@@ -46,7 +46,7 @@ class AndroidController extends Controller
 
     public function get_homepage_content(Request $request)
     {
- $banner = banner::orderBy('order')->where('status',1)->get();
+     $banner = banner::orderBy('order')->where('status',1)->get();
           foreach($banner as $data)
           {
               $data['image'] = $this->base_url."".$data->image;
@@ -68,6 +68,8 @@ class AndroidController extends Controller
                     'banner_image'=>$this->base_url.$shop->retailer->banner_image,
                     'address'=> $shop->retailer->address,
                     'website_address'=>$shop->retailer->website_address,
+                    'discount_percentage'=>80,
+                    'previous_discount'=>20
                     ]);
                }
 
@@ -192,22 +194,8 @@ class AndroidController extends Controller
                foreach($cat->sub_category as $sub_category)
                {
 
-                   $product_list = array();
-
-                    foreach($sub_category->product as $product)
-                    {
-                        $discount_avail = homepage_product_list::where('product_list',$product->id)->first();
-                        if($discount_avail)
-                        {
-                             $discount_price =$product->price - floor(($product->price*$discount_avail->discount_percentage)/100);
-                        }
-                        else
-                        {
-                            $discount_price = $product->price;
-                        }
-                    array_push($product_list,['id'=>$product->id,'name'=>$product->name,'image'=>$this->base_url.$product->thumbnail_image,'unit'=>$product->unit->unit_quantity." ".$product->unit->unit_type,'price'=> $product->price,'stock'=>$product->stock->stock_amount,'discount_price'=>$discount_price]);
-                    }
-                   array_push($data_sub_category,['id'=>$sub_category->id,'name'=>$sub_category->name,'image'=>$this->base_url.$sub_category->image,'product'=>$product_list]);
+                
+                   array_push($data_sub_category,['id'=>$sub_category->id,'name'=>$sub_category->name,'image'=>$this->base_url.$sub_category->image]);
                }
 
                array_push($data_category,['id'=>$cat->id,'name'=>$cat->name,'image'=>$this->base_url.$cat->image,'sub_category'=>$data_sub_category]);
