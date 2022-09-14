@@ -276,11 +276,12 @@ class AndroidController extends Controller
             return response($response, 200);
 
     }
-    public function get_shop_product(Request $request){
-        $id = $request->shop_id;
+    public function get_shop_product($id){
+
+        $retailer_details = retailerDetails::find($id)->first();
         $user_id = retailerDetails::find($id)->user->user_id;
         $products = product::where('user_id',$id)->get();
-        $response = ["products" =>$products];
+        $response = ["shop_details"=>$retailer_details,"products" =>$products];
         return response($response, 200);
     }
 

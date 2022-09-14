@@ -53,7 +53,7 @@ Route::group(['middleware' => ['json.response'],'middleware' => ['auth:api']], f
         Route::post('submit_otp','AndroidController@submit_otp');
          Route::get('get_homepage_content','AndroidController@get_homepage_content');
        Route::get('get_category','AndroidController@get_category');
-       Route::post('get_shop_product','AndroidController@get_shop_product');
+       Route::get('get_shop_product/{id}','AndroidController@get_shop_product');
 
        Route::post('get_search_result','AndroidController@search_product');
 
