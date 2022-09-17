@@ -17,17 +17,19 @@ class CreateOrdersTable extends Migration
             $table->id();
             $table->string('order_no')->unique();
             $table->bigInteger('user_id')->unsigned();
-            $table->bigInteger('address_id')->unsigned();
             $table->integer('total_price')->nullable();
-            $table->string('status')->nullable();
-            $table->string('remarks')->nullable();
-            $table->string('delivery_date')->nullable();
-            $table->string('delivery_time')->nullable();
-            $table->integer('delete_status')->default(0);
-
+            $table->integer('delivery_fee')->nullable();
+            $table->string('first_name')->nullable();
+            $table->string('last_name')->nullable();
+            $table->string('mobile')->nullable();
+            $table->string('post_code')->nullable();
+            $table->string('country')->nullable();
+            $table->string('address')->nullable();
+            $table->string('city')->nullable();
+            $table->string('status')->default('pending');
             $table->timestamps();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->foreign('address_id')->references('id')->on('user_addresses')->onDelete('cascade');
+            
 
         });
     }

@@ -27,7 +27,7 @@ Route::group(['middleware' => ['json.response']], function () {
 
 //shop api end
 
-
+Route::post('submit_order','AndroidController@submit_order');
 
 Route::group(['middleware' => ['json.response'],'middleware' => ['auth:api']], function ()  {
 
@@ -37,7 +37,7 @@ Route::group(['middleware' => ['json.response'],'middleware' => ['auth:api']], f
        Route::post('delete_address','AndroidController@delete_address');
         Route::post('user_order','AndroidController@get_order_details');
 
-        Route::post('submit_order','AndroidController@submit_order');
+        // Route::post('submit_order','AndroidController@submit_order');
           Route::post('logout','AndroidController@logout');
           Route::post('order_delivered','AndroidController@order_delivered');
         Route::post('token_insertion','AndroidController@token_insertion');

@@ -133,51 +133,83 @@ class AndroidController extends Controller
      public function submit_order(Request $request)
     {
         //file_put_contents('test.txt',$request);
-        $address_id = $request->address_id;
-        file_put_contents('order_id_test.txt',$address_id);
+       //$address_id = $request->address_id;
+        // file_put_contents('order_id_test.txt',$address_id);
 
-        $carts  = json_decode(json_encode($request->cart));
+        $carts  = json_decode(json_encode($request->cart_items));
 
-        $user_id = auth('api')->user()->id;
-        $order_no = 'GG'.$user_id.mt_rand(10000,99999);
-        $area_id = user_address::where('id',$address_id)->first()->area_id;
-        $courier_man =$this->search_courier_man($area_id);
-        if($courier_man == 0)
-        {
-        $response = ['status_code'=>414,'message'=>'No Courier Man Available. Please try again later'];
-        return response($response, 200);
+        //$user_id = auth('api')->user()->id;
+        $user_id = 3;
+        $order_no = 'FF'.$user_id.mt_rand(10000,99999);
+        $sub_total = 0;
+        foreach($carts as $cart){
+            $sub_total+=$cart->price;
         }
+        $delivery_fee = 60;
+        $order = order::create([
+            'user_id'=>$user_id,
+            'order_no'=>$order_no,
+            'status'=>'pending',
+            'total_price'=>$sub_total,
+            'delivery_fee'=>$delivery_fee,
+            'first_name'=>$request->first_name,
+            'last_name'=>$request->last_name,
+            'mobile'=>$request->mobile,
+            'address'=>$request->address,
+            'city'=>$request->city,
+            'post_code'=>$request->post_code,
 
+        ]);
+      
 
         foreach($carts as $cart)
         {
-         order_details::create(['order_no'=>$order_no,'product_id'=>$cart->id,'unit_quantity'=>$cart->unit,'count'=>$cart->count,'price'=>$cart->price]);
+         order_details::create([
+         'order_id'=>$order->id,
+         'product_id'=>$cart->id,
+         'count'=>$cart->quantity,
+         'color'=>$cart->color,
+         'size'=>$cart->size,
+         'price'=>$cart->price]);
         }
 
            // $order_no = $order->order_no;
-              $order_list = array();
-            $order_detail = order_details::where('order_no',$order_no)->get();
-            $order_details = array();
-            $sub_total = 0;
-              for($j=0;$j<sizeof($order_detail);$j++)
-            {
-                $sub_total+=$order_detail[$j]->price*$order_detail[$j]->count;
-                array_push($order_details,['id'=>$order_detail[$j]->id,'price'=>$order_detail[$j]->price,'count'=>$order_detail[$j]->count,'unit'=>$order_detail[$j]->unit_quantity,'name'=>$order_detail[$j]->product->name,'image'=>$this->base_url.$order_detail[$j]->product->thumbnail_image,'total'=>$order_detail[$j]->price*$order_detail[$j]->count]);
+            // $order_list = array();
+            // $order_detail = order_details::where('order_no',$order->id)->get();
+            // $order_details = array();
+            // $sub_total = 0;
+            //   for($j=0;$j<sizeof($order_detail);$j++)
+            // {
+            //     $sub_total+=$order_detail[$j]->price*$order_detail[$j]->count;
+            //     array_push($order_details,
+            //     ['id'=>$order_detail[$j]->id,
+            //     'price'=>$order_detail[$j]->price,
+            //     'count'=>$order_detail[$j]->count,
+            //     'name'=>$order_detail[$j]->product->name,
+            //     'image'=>$this->base_url.$order_detail[$j]->product->thumbnail_image,
+            //     'total'=>$order_detail[$j]->price*$order_detail[$j]->count]);
 
-            }
-            $delivery_fee = 60;
-            $order = order::create(['address_id'=>$address_id,'user_id'=>$user_id,'order_no'=>$order_no,'courier_man'=>$courier_man,'status'=>'pending','total_price'=>$sub_total,'delivery_fee'=>$delivery_fee]);
+            // }
+            // $delivery_fee = 60;
+           
 
-            $order_date =  date("d-m-Y h:i:s", strtotime($order->created_at));
-
-
-
-
-            array_push($order_list,['order_no'=>$order->order_no,'order_date'=>$order_date,'status'=>$order->status,'delivery_fee'=>$delivery_fee,'delivery_address'=>$order->address->address,'subtotal'=>$sub_total+$delivery_fee,'product'=>$order_details]);
+            // $order_date =  date("d-m-Y h:i:s", strtotime($order->created_at));
 
 
 
-         $response = ['status_code'=>200,'order'=>$order_list];
+
+            // array_push($order_list,[
+            //     'order_no'=>$order->order_no,
+            //     'order_date'=>$order_date,
+            //     'status'=>$order->status,
+            //     'delivery_fee'=>$delivery_fee,
+            //     'delivery_address'=>$order->address->address,
+            //     'subtotal'=>$sub_total+$delivery_fee,
+            //     'product'=>$order_details]);
+
+
+
+         $response = ['status_code'=>200,'message'=>'Order submitted successfully'];
         return response($response, 200);
 
     }
