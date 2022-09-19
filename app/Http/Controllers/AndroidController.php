@@ -346,12 +346,11 @@ class AndroidController extends Controller
 
     public function submit_otp(Request $request)
     {
+
         $mobile_number = $request->mobile_number;
         $otp = $request->otp;
         $check = Otp::check($otp, $mobile_number);
         $user = user::where('contact_no', $mobile_number)->first();
-          
-
         if($check)
         {
              if($user)
@@ -361,8 +360,11 @@ class AndroidController extends Controller
              }
              else
              {
-
-                 $response = ["status_code" =>200,'user_status'=>'new'];
+                $user = user::create([
+                    'contact_no'=>$request->mobile_number
+                ]);
+                $token = $user->createToken('Laravel Password Grant Client')->accessToken;
+                 $response = ['token'=>$token,"status_code" =>200,'user_status'=>'new'];
              }
             //return response($response, 200);
 
@@ -408,6 +410,10 @@ class AndroidController extends Controller
     {
 
         $mobile_number = $request->mobile_number;
+        if(!$mobile_number){
+            $response = ['status_code'=>202,'message'=>'Mobile number filed can not be empty'];
+            return response($response, 200);
+        }
         $otp = Otp::generate($mobile_number);
         $response = ['status_code'=>200,'otp'=>$otp];
         return response($response, 200);
@@ -450,16 +456,9 @@ class AndroidController extends Controller
     {
         $name = $request->name;
         $email = $request->email;
-
-
-        $user = new user();
-        $user->name = $name;
-        $user->email = $email;
-        $user->save();
-        // $user = user::create(['name'=>$name,'contact_no'=>$mobile_number]);
-
-         $token = $user->createToken('Laravel Password Grant Client')->accessToken;
-         $response = ['token' => $token,'status_code'=>200];
+        $mobile_number = $request->mobile_number;
+        user::where('contact_no',$mobile_number)->update(['name'=>$name,'email'=>$email]);
+        $response = ['status_code'=>200,'message'=>'Data inserted successfully'];
         // $response = ["status_code" =>200,'token'=>$token];//
             return response($response, 200);
 
