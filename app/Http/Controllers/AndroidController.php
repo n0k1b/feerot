@@ -27,6 +27,7 @@ use App\Models\user_token;
 use App\Models\warehouse;
 use App\Models\deposit;
 use App\Models\retailerDetails;
+use Tzsk\Otp\Facades\Otp;
 
 use Hash;
 use DB;
@@ -303,7 +304,12 @@ class AndroidController extends Controller
        
         $products = product::where('name','LIKE','%'.$input_value.'%')->where('status',1)->get();
         $shops = retailerDetails::where('shop_name','LIKE','%'.$input_value.'%')->where('status',1)->get();
-
+        foreach($products as $product){
+            $product->thumbnail_image = $this->base_url.$product->thumbnail_image;
+        }
+        foreach($shops as $shop ){
+            $shop->thumbnail_image = $this->base_url.$shop->thumbnail_image;
+        }
             $response = ["products" =>$products,'shops'=>$shops];
             return response($response, 200);
 
@@ -340,12 +346,11 @@ class AndroidController extends Controller
 
     public function submit_otp(Request $request)
     {
-        $token = $request->otp_token;
+        $mobile_number = $request->mobile_number;
         $otp = $request->otp;
-        $check = user_otp::where('token',$token)->where('otp',$otp)->first();
-         $user = user::where('contact_no', $request->msisdn)->first();
-       //  file_put_contents('test.txt',$otp.' '.$token.' '.$request->msisdn);
-
+        $check = Otp::check($otp, $mobile_number);
+        $user = user::where('contact_no', $mobile_number)->first();
+          
 
         if($check)
         {
@@ -401,34 +406,12 @@ class AndroidController extends Controller
 
         public function login(Request $request)
     {
-        $mobile_number = $request->msisdn;
-        // $user = user::where('contact_no',$mobile_number)->first();
-        // if($user)
-        // {
-        //      $response = ['status_code'=>202,'message'=>'User Already Registered'];
-        //     return response($response, 200);
-        // }
-        $otp = mt_rand(1000,9999);
-        $otp_token = $this->str_random(30);
-        $this->send_otp($mobile_number,$otp);
-        user_otp::create(['token'=>$otp_token,'otp'=>$otp]);
 
-        $response = ['status_code'=>200,'otp_token'=>$otp_token];
+        $mobile_number = $request->mobile_number;
+        $otp = Otp::generate($mobile_number);
+        $response = ['status_code'=>200,'otp'=>$otp];
         return response($response, 200);
 
-
-        // $user = user::where('contact_no', $request->msisdn)->first();
-        // if($user)
-        // {
-        //     $token = $user->createToken('Laravel Password Grant Client')->accessToken;
-        //     $response = ['token' => $token,'status_code'=>200];
-        //     return response($response, 200);
-        // }
-        // else
-        // {
-        //     $response = ["message" =>'User does not exist','status_code'=>422];
-        //     return response($response, 422);
-        // }
     }
 
           public function login_delivery_man(Request $request)
@@ -466,12 +449,12 @@ class AndroidController extends Controller
     public function registration(Request $request)
     {
         $name = $request->name;
-        $mobile_number = $request->msisdn;
+        $email = $request->email;
 
 
         $user = new user();
         $user->name = $name;
-        $user->contact_no = $mobile_number;
+        $user->email = $email;
         $user->save();
         // $user = user::create(['name'=>$name,'contact_no'=>$mobile_number]);
 

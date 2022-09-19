@@ -16,6 +16,8 @@
         "laravel/passport": "^10.1",
         "laravel/tinker": "^2.5",
         "maatwebsite/excel": "^3.1",
+        "seshac/otp-generator": "^0.0.7",
+        "tzsk/otp": "^6.0",
         "yajra/laravel-datatables-oracle": "^9.17"
     },
     "require-dev": {
