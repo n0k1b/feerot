@@ -186,30 +186,29 @@ class HomepageContentController extends Controller
 
     public function product_add_to_section_ui($id)
     {
-        $retailer_list = retailerDetails::get();
-        foreach($retailer_list as $retailer)
-        {
-            $avail = homepage_product_list::where('homepage_section_id',$id)->where('retailer_id',$retailer->id)->first();
-            if($avail)
-            {
-                $retailer['avail'] = 1;
-            }
-            else
-            {
-                $retailer['avail'] = 0;
-            }
-        }
-        return view('admin.homepage_section.product_section_all',compact('retailer_list','id'));
+        // $retailer_list = retailerDetails::get();
+        // foreach($retailer_list as $retailer)
+        // {
+        //     $avail = homepage_product_list::where('homepage_section_id',$id)->where('retailer_id',$retailer->id)->first();
+        //     if($avail)
+        //     {
+        //         $retailer['avail'] = 1;
+        //     }
+        //     else
+        //     {
+        //         $retailer['avail'] = 0;
+        //     }
+        // }
+        return view('admin.homepage_section.product_section_all',compact('id'));
     }
 
 
 
-    public function add_product_to_section(Request $request)
+    public function add_retailer_to_section(Request $request)
     {
-            $product_id = $request->product_id;
-            $discount_percentage = $request->discount_percentage;
+            $retailer_id = $request->retailer_id;
             $homepage_section_id = $request->homepage_section_id;
-            homepage_product_list::create(['homepage_section_id'=>$homepage_section_id,'product_list'=>$product_id,'discount_percentage'=>$discount_percentage]);
+            homepage_product_list::create(['homepage_section_id'=>$homepage_section_id,'retailer_id'=>$retailer_id]);
 
     }
 
@@ -226,77 +225,89 @@ class HomepageContentController extends Controller
 
     }
 
+    public function update_retailer_order(Request $request)
+    {
+        $position = $request->position;
+        
+        // for($i = 0 ;$i<sizeof($position);$i++)
+        // {
+        //     homepage_product_list::where('homepage_section_id',$id)->orderBy('order')->get();
+        //     banner::where('id',$position[$i])->update(['order'=>$i+1]);
+        // }
+
+    }
 
 
+    public function change_retailer_priority($id)
+    {
+        $datas = homepage_product_list::where('homepage_section_id',$id)->orderBy('order')->get();
+        $i=1;
+
+        foreach($datas as $data)
+        {
+            $data['sl_no'] = $i++;
+        }
+        $permission = $this->permission();
+        return view('admin.homepage_section.change_priority',['datas'=>$datas,'role_permission'=>$permission]);
+
+        //return $id;
+    }
 
 
     public function get_all_homepage_section_retailer($id)
     {
-      $product_list =   homepage_product_list::where('homepage_section_id',$id)->get();
+      $retailer_list =   homepage_product_list::where('homepage_section_id',$id)->get();
         $data = '';
-        foreach($product_list as $product)
+        foreach($retailer_list as $retailer)
         {
-            $after_discount_price = $product->product->price- floor(($product->product->price * $product->discount_percentage)/100);
             $data.='
             <div class="col-xl-3 col-xxl-4 col-lg-4 col-md-6 col-sm-6">
                 <div class="card">
-                    <img class="img" src="../../'.$product->product->thumbnail_image.'" alt=""  height="200px">
+                    <img class="img" src="../public/'.$retailer->retailer->thumbnail_image.'" alt=""  height="200px">
                     <div class="card-body">
-                        <h4>'.$product->product->name.'</h4>
-                        <ul class="list-group mb-3 list-group-flush">
-                            <li class="list-group-item px-0 border-top-0 d-flex justify-content-between"><span class="mb-0 text-muted">Product Price</span>
-                               <strong>'.$product->product->price.'</strong></li>
-
-                               <li class="list-group-item px-0 border-top-0 d-flex justify-content-between"><span class="mb-0 text-muted">Discount Percentage</span>
-                               <strong>'.$product->discount_percentage.'</strong></li>
-
-                               <li class="list-group-item px-0 border-top-0 d-flex justify-content-between"><span class="mb-0 text-muted">After Discount Price</span>
-                               <strong>'.$after_discount_price.'</strong></li>
-
-                        </ul>
-                        <a href="javascript:;" onclick = "edit_discount_price_modal('.$product->discount_percentage.','.$product->id.')" class="btn btn-primary">Edit Discount Percentage</a>
-                        <a href="javascript:void(0);" class="btn btn-sm btn-danger" onclick="delete_product_from_section('.$product->id.')"><i class="la la-trash-o"></i></a>
+                        <h4>'.$retailer->retailer->shop_name.'</h4>
+                        <a href="javascript:void(0);" class="btn btn-sm btn-danger" onclick="delete_retailer_from_section('.$retailer->id.')"><i class="la la-trash-o"></i></a>
                     </div>
                 </div>
             </div>
     ';
         }
-        $all_product = '<label>Select Product</label>
-        <select class="form-control select2" id="product_id" name="product_id">
-            <option>Select Product</option>';
-        $product_list = product::get();
-        foreach($product_list as $product)
+        $all_retailer = '<label>Select Product</label>
+        <select class="form-control select2" id="retailer_id" name="retailer_id">
+            <option>Select Retailer</option>';
+        $retailer_list = retailerDetails::get();
+        foreach($retailer_list as $retailer)
         {
-            $avail = homepage_product_list::where('homepage_section_id',$id)->where('product_list',$product->id)->first();
+            $avail = homepage_product_list::where('homepage_section_id',$id)->where('retailer_id',$retailer->id)->first();
             if($avail)
             {
-                $product['avail'] = 1;
+                $retailer['avail'] = 1;
             }
             else
             {
-                $product['avail'] = 0;
+                $retailer['avail'] = 0;
             }
         }
-        foreach($product_list as $product)
+        foreach($retailer_list as $retailer)
         {
-            if($product->avail == 0){
-                 $all_product.='
+            if($retailer->avail == 0){
+                 $all_retailer.='
 
 
-                <option value="'.$product->id.'">'. $product->name.'</option>
+                <option value="'.$retailer->id.'">'. $retailer->shop_name.'</option>
 
        ';
             }
             else{
-        $all_product.='
+        $all_retailer.='
 
 
-        <option value="'.$product->id .'" disabled>'.$product->name.'</option>
+        <option value="'.$retailer->id .'" disabled>'.$retailer->shop_name.'</option>
 
        ';
         }
     }
-        $all_product.=' </select>
+        $all_retailer.=' </select>
 
         <script src="../../assets/admin/js/select2.full.js"></script>
         <script src="../../assets/admin/js/advanced-form-element.js"></script>
@@ -304,23 +315,23 @@ class HomepageContentController extends Controller
         ';
 
 
-        echo json_encode(['section_product'=>$data,'all_product'=>$all_product]);
+        echo json_encode(['section_retailer'=>$data,'all_retailer'=>$all_retailer]);
 
     }
 
-    public function delete_product_from_section(Request $request)
+    public function delete_retailer_from_section(Request $request)
     {
         $id = $request->id;
         homepage_product_list::where('id', $id)->delete();
 
     }
 
-    public function get_all_product_list($id)
+    public function get_all_retailer_list($id)
     {
-        $product_list = product::get();
-        foreach($product_list as $product)
+        $retailer_list = product::get();
+        foreach($retailer_list as $retailer)
         {
-            $avail = homepage_product_list::where('homepage_section_id',$id)->where('product_list',$product->id)->first();
+            $avail = homepage_product_list::where('homepage_section_id',$id)->where('retailer_id',$retailer->id)->first();
             if($avail)
             {
                 $product['avail'] = 1;

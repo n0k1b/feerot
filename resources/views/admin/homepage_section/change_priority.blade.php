@@ -28,14 +28,14 @@
 				<div class="row page-titles mx-0">
                     <div class="col-sm-6 p-md-0">
                         <div class="welcome-text">
-                            <h4>All banner</h4>
+                            <h4>All Retailer</h4>
                         </div>
                     </div>
                     <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
                         <ol class="breadcrumb">
                             <li class="breadcrumb-item"><a href="index.html">Home</a></li>
 
-                            <li class="breadcrumb-item active"><a href="javascript:void(0);">banner List</a></li>
+                            <li class="breadcrumb-item active"><a href="javascript:void(0);">Retailer</a></li>
                         </ol>
                     </div>
                 </div>
@@ -48,9 +48,9 @@
 								<div class="card">
 									<div class="card-header">
 										<h4 class="card-title"></h4>
-                                        @if(in_array('banner_add',$role_permission))
+                                        
 										<a href="{{ route('add-banner') }}" class="btn btn-primary">+ Add new</a>
-                                        @endif
+                                        
 									</div>
 									<div class="card-body">
 										<div class="table-responsive">
@@ -60,12 +60,9 @@
 														<th>#</th>
 
 
-
+                                                        <th>Retailer Name</th>
 														<th>Image</th>
-														<th>Active Status</th>
-
-
-                                                        <th>Image Edit</th>
+													
 
 
 													</tr>
@@ -81,26 +78,9 @@
 
 
 
-
-                                                        <td><img  height="120px" width="250px" src="public/{{$data->image}}"  alt="Not Available"></td>
-														<td> <label class="switch">
-															<input type="checkbox"  onclick="banner_active_status({{$data->id}})" {{$checked}}>
-																<span class="slider round"></span>
-															</label></td>
-
-                                                        <td>
-                                                            @if(in_array('banner_edit',$role_permission))
-                                                            <a href="edit_banner_image/{{$data->id}}" class="btn btn-sm btn-info"><i class="la la-pencil"></i></a>
-                                                            @else
-                                                            <a href="javascript:void(0);" onclick="access_alert()" class="btn btn-sm btn-info"><i class="la la-pencil"></i></a>
-                                                            @endif
-                                                            @if(in_array('banner_delete',$role_permission))
-                                                            <a href="javascript:void(0);" class="btn btn-sm btn-danger" onclick="banner_content_delete({{$data->id}})"><i class="la la-trash-o"></i></a>
-                                                            @else
-                                                            <a href="javascript:void(0);" class="btn btn-sm btn-danger" onclick="access_alert()"><i class="la la-trash-o"></i></a>
-                                                            @endif
-                                                        </td>
-
+                                                        <td>{{$data->retailer->shop_name}}</td>
+                                                        <td><img  height="120px" width="250px" src="../public/{{$data->retailer->thumbnail_image}}"  alt="Not Available"></td>
+														
 													</tr>
 
 												@endforeach
@@ -149,7 +129,7 @@
     function updateOrder(data) {
 
         $.ajax({
-            url:"update_banner_order",
+            url:"update_retailer_order",
             type:'post',
             data:{position:data},
             success:function(){

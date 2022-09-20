@@ -15,7 +15,7 @@ function get_product_list() {
         processData: false,
         contentType: false,
         type: 'GET',
-        url: '../get_all_product_list/' + homepage_section_id,
+        url: '../get_all_retailer_list/' + homepage_section_id,
         success: function(data) {
             $("product_list").html(data);
         }
@@ -65,8 +65,8 @@ function show_all_product() {
         url: '../get_all_homepage_section_retailer/' + homepage_section_id,
         success: function(data) {
             var all_data = JSON.parse(data);
-            $("#all_section_product").html(all_data.section_product);
-            $("#product_list").html(all_data.all_product);
+            $("#all_section_retailer").html(all_data.section_retailer);
+            $("#retailer_list").html(all_data.all_retailer);
 
 
 
@@ -74,14 +74,14 @@ function show_all_product() {
     })
 }
 
-function delete_product_from_section(id) {
+function delete_retailer_from_section(id) {
     var conf = confirm('Are you sure?');
     if (conf == true) {
         $.ajax({
             processData: false,
             contentType: false,
             type: 'GET',
-            url: '../delete_product_from_section/' + id,
+            url: '../delete_retailer_from_section/' + id,
             success: function(data) {
                 alert('Content Delete Successfully')
                 show_all_product();
@@ -94,12 +94,10 @@ function delete_product_from_section(id) {
 function add_product_to_section() {
 
 
-    var product_id = $('#product_id').val();
-    var discount_percentage = $('#discount_percentage').val();
+    var retailer_id = $('#retailer_id').val();
 
     var formdata = new FormData();
-    formdata.append('product_id', product_id);
-    formdata.append('discount_percentage', discount_percentage);
+    formdata.append('retailer_id', retailer_id);
     formdata.append('homepage_section_id', homepage_section_id);
 
 
@@ -108,7 +106,7 @@ function add_product_to_section() {
         contentType: false,
         type: 'POST',
         data: formdata,
-        url: '../add-product-to-section',
+        url: '../add-retailer-to-section',
         success: function(data) {
 
             show_all_product();

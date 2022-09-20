@@ -63,7 +63,11 @@
                                                 <a href="javascript:void(0);" class="btn btn-sm btn-danger" onclick="role_content_delete({{$data->id}})"><i class="la la-trash-o"></i></a>
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url('admin/permission/'.$data->id) }}'" >Update Permission</button>
+                                                <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url('permission/'.$data->id) }}'" >Update Permission</button>
+                                            </td>
+
+                                            <td>
+                                                <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url('permission/'.$data->id) }}'" >Change Priority</button>
                                             </td>
 
                                         </tr>

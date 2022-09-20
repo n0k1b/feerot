@@ -39,8 +39,8 @@ class OrderController extends Controller
         {
 
 
-            $order_no = $data->order_no;
-            $order_detail = order_details::where('order_no',$order_no)->get();
+            // $order_no = $data->id;
+            $order_detail = order_details::where('order_id',$data->id)->get();
 
             $sub_total = 0;
             for($j=0;$j<sizeof($order_detail);$j++)
@@ -63,27 +63,19 @@ class OrderController extends Controller
 
        public function all_order()
     {
-        $order = order::where('status','!=','pending')->where('status','!=','picked')->where('delete_status',0)->orderBy(DB::raw('case when status= "delivered" then 1 when status= "canceled" then 2 end'))->get();
+        $order = order::where('status','!=','pending')->where('status','!=','picked')->orderBy(DB::raw('case when status= "delivered" then 1 when status= "canceled" then 2 end'))->get();
         $i=1;
 
          foreach($order as $data)
         {
 
-
-            $order_no = $data->order_no;
-            $order_detail = order_details::where('order_no',$order_no)->get();
+            $order_detail = order_details::where('order_no',$data->id)->get();
 
             $sub_total = 0;
             for($j=0;$j<sizeof($order_detail);$j++)
             {
                 $sub_total+=$order_detail[$j]->price*$order_detail[$j]->count;
-
-                // array_push($order_details,$order_)
             }
-          //  $order_date =  date("d-m-Y h:i:s", strtotime($order[$i]->created_at));
-          // array_push($order_list,['order_no'=>$order[$i]->order_no,'order_date'=>$order_date,'status'=>$order[$i]->status,'delivery_address'=>$order[$i]->address->address,'subtotal'=>$sub_total,'product'=>$order_details]);
-
-
 
             $data['sl_no'] = $i++;
             $data['total_bill'] = $sub_total;
@@ -96,7 +88,7 @@ class OrderController extends Controller
     {
         $order_no = $request->order_no;
         $order = order::where('order_no',$order_no)->first();
-        $order_details = order_details::where('order_no',$order_no)->get();
+        $order_details = order_details::where('order_id',$order->id)->get();
         $i=1;
           foreach($order_details as $data)
         {

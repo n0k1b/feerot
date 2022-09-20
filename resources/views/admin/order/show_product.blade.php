@@ -75,13 +75,8 @@
                                                     @foreach($datas as $data)
 
 														<td><strong>{{$data->sl_no}}</strong></td>
-
-                                                        @if($data->product_type=='regular')
 														<td>{{$data->product->name}}</td>
-                                                        @else
-                                                        <td>{{$data->package->package_name}}</td>
-                                                        @endif
-														<td>{{ $data->count }} x {{$data->unit_quantity}}</td>
+														<td>{{ $data->count }}</td>
                                                         {{-- <td>{{ $data->price }}</td> --}}
                                                         <td>{{ $data->price }}</td>
                                                         <td>{{ $data->count*$data->price }}</td>
@@ -141,8 +136,8 @@
             title: 'Invoice',
              messageTop:"<b>Order Number</b>: "+"{{ $order->order_no }}"+'<br>'+
              "<b>Customer Name</b>: "+"{{ $order->user->name }}"+'<br>'+
-            "<b>Contact No</b>: "+ "{{ $order->user->contact_no }}"+'<br>'+
-            "<b>Address</b>: "+"{{ $order->address->address }}"+','+"{{ $order->address->area->name }}"+'<br>'+
+            "<b>Contact No</b>: "+ "{{ $order->mobile }}"+'<br>'+
+            "<b>Address</b>: "+"{{ $order->address }}"+','+"{{ $order->city }}"+'<br>'+
             "<b>Deliver date & time</b>: "+"{{ $order->delivery_date }}"+' '+"{{ $order->delivery_time }}<br>"
 
 

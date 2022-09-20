@@ -133,15 +133,17 @@ Route::group(['middleware' => 'IsAdmin'], function()
       Route::get('edit_homepage-section_image/{id}','HomepageContentController@edit_homepage_section_image_ui')->name('edit_homepage-section_image');
       Route::post('update_homepage-section_image','HomepageContentController@update_homepage_section_image')->name('update_homepage-section_image');
       Route::post('update_homepage_content_order','HomepageContentController@update_homepage_content_order')->name('update_homepage_content_order');
+      Route::get('change_retailer_priority/{id}','HomepageContentController@change_retailer_priority')->name('change_retailer_priority');
+      Route::post('update_retailer_order','HomepageContentController@update_retailer_order')->name('update_retailer_order');
       //homepage_content_end
 
       //product add to section start
         Route::get('product-add-to-section/{id}','HomepageContentController@product_add_to_section_ui')->name('product-add-to-section');
-        Route::post('add-product-to-section','HomepageContentController@add_product_to_section')->name('add-product-to-section');
+        Route::post('add-retailer-to-section','HomepageContentController@add_retailer_to_section')->name('add-retailer-to-section');
         Route::post('update-product-to-section','HomepageContentController@update_product_to_section')->name('update-product-to-section');
-        Route::get('get_all_homepage_section_product/{id}','HomepageContentController@get_all_homepage_section_product')->name('get_all_homepage_section_product');
-        Route::get('delete_product_from_section/{id}','HomepageContentController@delete_product_from_section')->name('delete_product_from_section');
-        Route::get('get_all_product_list/{id}','HomepageContentController@get_all_product_list')->name('get_all_product_list');
+        Route::get('get_all_homepage_section_retailer/{id}','HomepageContentController@get_all_homepage_section_retailer')->name('get_all_homepage_section_product');
+        Route::get('delete_retailer_from_section/{id}','HomepageContentController@delete_retailer_from_section')->name('delete_retailer_from_section');
+        Route::get('get_all_retailer_list/{id}','HomepageContentController@get_all_retailer_list')->name('get_all_product_list');
 
     //product add to section end
 

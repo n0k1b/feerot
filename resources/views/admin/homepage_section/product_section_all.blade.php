@@ -14,7 +14,7 @@
 
     <div class="row page-titles mx-0">
         <div class="col-sm-6 col-md-6 col-lg-6 p-md-0">
-            <div class="form-group" style="padding-right: 10px;" id="product_list">
+            <div class="form-group" style="padding-right: 10px;" id="retailer_list">
 
             </div>
         </div>
@@ -31,7 +31,7 @@
 
     </div>
 
-    <div class="row" id="all_section_product">
+    <div class="row" id="all_section_retailer">
         <div id="jquery_preloader" class="preloader js-preloader flex-center">
             <div class="dots">
             <div class="dot"></div>
