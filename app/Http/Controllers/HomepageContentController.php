@@ -208,7 +208,17 @@ class HomepageContentController extends Controller
     {
             $retailer_id = $request->retailer_id;
             $homepage_section_id = $request->homepage_section_id;
-            homepage_product_list::create(['homepage_section_id'=>$homepage_section_id,'retailer_id'=>$retailer_id]);
+            $homepage_section_product = homepage_product_list::where('homepage_section_id',$homepage_section_id)->orderBy('order')->get();
+                if(sizeof($homepage_section_product)>0)
+            {
+                $last_insert_id = homepage_product_list::where('homepage_section_id',$homepage_section_id)->orderBy('order','DESC')->first()->order;;
+
+            }
+            else
+            {
+                $last_insert_id = 0;
+            }
+            homepage_product_list::create(['homepage_section_id'=>$homepage_section_id,'retailer_id'=>$retailer_id,'order'=>$last_insert_id+1]);
 
     }
 
@@ -228,12 +238,11 @@ class HomepageContentController extends Controller
     public function update_retailer_order(Request $request)
     {
         $position = $request->position;
-        
-        // for($i = 0 ;$i<sizeof($position);$i++)
-        // {
-        //     homepage_product_list::where('homepage_section_id',$id)->orderBy('order')->get();
-        //     banner::where('id',$position[$i])->update(['order'=>$i+1]);
-        // }
+
+        for($i = 0 ;$i<sizeof($position);$i++)
+        {
+            homepage_product_list::where('id',$position[$i])->update(['order'=>$i+1]);
+        }
 
     }
 

@@ -350,7 +350,7 @@ class AndroidController extends Controller
         $mobile_number = $request->mobile_number;
         $otp = $request->otp;
         $check = 1; //
-        Otp::check($otp, $mobile_number);
+        //Otp::check($otp, $mobile_number);
         $user = user::where('contact_no', $mobile_number)->first();
         if($check)
         {
