@@ -56,9 +56,6 @@
     											<thead  class="thead-dark">
 													<tr>
 														<th>#</th>
-
-
-
 														<th>Product Name</th>
 														<th>Quantity</th>
                                                         <th>Unit Price</th>
@@ -77,7 +74,6 @@
 														<td><strong>{{$data->sl_no}}</strong></td>
 														<td>{{$data->product->name}}</td>
 														<td>{{ $data->count }}</td>
-                                                        {{-- <td>{{ $data->price }}</td> --}}
                                                         <td>{{ $data->price }}</td>
                                                         <td>{{ $data->count*$data->price }}</td>
 

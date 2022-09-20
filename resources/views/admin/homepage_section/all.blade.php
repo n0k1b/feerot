@@ -61,13 +61,9 @@
 													<tr>
 														<th>#</th>
                                                         <th>Section Name</th>
-
-
-														<th>Image</th>
 														<th>Active Status</th>
 
                                                         <th>Action</th>
-                                                        <th>Image Edit</th>
                                                         <th></th>
 
 													</tr>
@@ -82,9 +78,6 @@
 														<td><strong>{{$data->sl_no}}</strong></td>
 														<td>{{$data->section_name}}</td>
 
-
-
-                                                        <td><img  width="100" src="../{{$data->image}}"  alt="Not Available"></td>
 														<td> <label class="switch">
 															<input type="checkbox"  onclick="homepage_section_active_status({{$data->id}})" {{$checked}}>
 																<span class="slider round"></span>
@@ -103,11 +96,9 @@
                                                             @endif
 
                                                         </td>
-                                                        <td>
-															<a href="edit_homepage-section_image/{{$data->id}}" class="btn btn-sm btn-info"><i class="la la-pencil"></i></a>
-
-                                                        </td>
+                                                        <td><button class="btn btn-primary" onclick="location.href='change_retailer_priority/{{ $data->id }}'">Change Priority</button></td>
                                                         <td><button class="btn btn-primary" onclick="location.href='product-add-to-section/{{ $data->id }}'">Show Shop</button></td>
+                                                        
 													</tr>
 
 												@endforeach

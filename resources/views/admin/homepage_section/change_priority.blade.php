@@ -46,12 +46,7 @@
 						<div class="row tab-content">
 							<div id="list-view" class="tab-pane fade active show col-lg-12">
 								<div class="card">
-									<div class="card-header">
-										<h4 class="card-title"></h4>
-                                        
-										<a href="{{ route('add-banner') }}" class="btn btn-primary">+ Add new</a>
-                                        
-									</div>
+									
 									<div class="card-body">
 										<div class="table-responsive">
 											<table id="example3" class="table" style="min-width: 845px">
@@ -129,7 +124,7 @@
     function updateOrder(data) {
 
         $.ajax({
-            url:"update_retailer_order",
+            url:"../update_retailer_order",
             type:'post',
             data:{position:data},
             success:function(){

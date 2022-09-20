@@ -66,9 +66,7 @@
                                                 <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url('permission/'.$data->id) }}'" >Update Permission</button>
                                             </td>
 
-                                            <td>
-                                                <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url('permission/'.$data->id) }}'" >Change Priority</button>
-                                            </td>
+                                        
 
                                         </tr>
                                         @endforeach
