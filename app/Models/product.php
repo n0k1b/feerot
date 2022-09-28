@@ -40,6 +40,9 @@ class product extends Model
     {
         return $this->belongsTo('App\Models\warehouse_product','id','product_id')->withDefault();
     }
-
+    protected $casts = [
+        'color' => 'array',
+        'size' => 'array',
+    ];
 
 }
