@@ -867,8 +867,13 @@ class AndroidController extends Controller
 
                  return response($order, 200);
 
-
-
+        }
+        public function get_product_details($id){
+            $product = product::where('id',$id)->first();
+            $product->thumbnail_image = $this->base_url.$product->thumbnail_image;
+            $product->detail_image = [$this->base_url.$product->product_detail_image_1,$this->base_url.$product->product_detail_image_2,$this->base_url.$product->product_detail_image_3,$this->base_url.$product->product_detail_image_4];
+            $response = ["product_details" => $product];
+            return response($response, 200);
         }
 
 

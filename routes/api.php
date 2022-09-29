@@ -54,6 +54,7 @@ Route::group(['middleware' => ['json.response'],'middleware' => ['auth:api']], f
          Route::get('get_homepage_content','AndroidController@get_homepage_content');
        Route::get('get_category','AndroidController@get_category');
        Route::get('get_shop_product/{id}','AndroidController@get_shop_product');
+       Route::get('product_details/{id}','AndroidController@get_product_details');
 
        Route::post('get_search_result','AndroidController@search_product');
 
