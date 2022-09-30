@@ -41,6 +41,20 @@
                     <form action="{{route('add-product')}}" method="post" enctype="multipart/form-data">
                         @csrf
                         <div class="row">
+                            @if(strtolower(auth()->guard('admin')->user()->role) == 'admin')
+                            <div class="col-lg-6 col-md-6 col-sm-6">
+                                <div class="form-group">
+                                    <label>Select Retailerr</label>
+                                    <select class="form-control select2" id="retailer" name="retailer_id">
+                                        <option selected disabled>Select Retailer</option>
+                                        @foreach($retailers as $retailer)
+                                            <option value="{{ $retailer->user_id }}">{{ $retailer->shop_name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                            </div>
+                            @endif
+                            
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="form-group">
                                     <label>Category</label>
@@ -64,7 +78,7 @@
                                 <div class="form-group">
                                     <label>Brand</label>
                                     <select class="form-control select2" id="brand" name="brand_id">
-                                        <option>Select Sub Category First</option>
+                                        <option>Select Category First</option>
                                     </select>
                                 </div>
                             </div>

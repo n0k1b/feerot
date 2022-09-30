@@ -14,7 +14,7 @@ class BrandController extends Controller
     public function show_all_brand()
     {
 
-        $datas = product_brand::where('sub_category_id','!=',NULL)->get();
+        $datas = product_brand::get();
         $i=1;
         foreach($datas as $data)
         {

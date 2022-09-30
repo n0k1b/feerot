@@ -17,35 +17,36 @@
                    
                 <li><a class="ai-icon" href="{{url('admin')}}" aria-expanded="false">
                         <i class="la la-bar-chart"></i>
-                        <span class="nav-text">Dashboard</span>
+                        <span class="nav-text">Dashboards</span>
                     </a>
                 </li>
               
-				
+				@if(strtolower($user_role) == 'admin')
 				
 					<li><a class="ai-icon" href="{{ route('show-all-category') }}" aria-expanded="false">
 							<i class="la la-list"></i>
 							<span class="nav-text">Category</span>
 						</a>
 					</li>
-                   
+                 @endif
                
-
+                 @if(strtolower($user_role) == 'admin')
 					<li><a class="ai-icon" href="{{ route('show-all-sub-category') }}" aria-expanded="false">
 							<i class="la la-list-alt"></i>
 							<span class="nav-text">Sub Category</span>
 						</a>
 					</li>
-
+                @endif
+                @if(strtolower($user_role) == 'admin')
                     <li><a class="ai-icon" href="{{ route('show-all-brand') }}" aria-expanded="false">
 							<i class="la la-list"></i>
 							<span class="nav-text">Brand</span>
 						</a>
 					</li>
-
+                @endif
 
 					
-                  
+                @if(in_array('product_view',$role_permission) || strtolower($user_role) == 'admin') 
 					<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
 						<i class="la la-dropbox"></i>
 						<span class="nav-text">Product</span>
@@ -53,10 +54,13 @@
 					<ul aria-expanded="false">
 						{{-- <li><a href="{{ route('show-all-product-field')}}">Product Field</a></li> --}}
 						<li><a href="{{ route('get_all_product')}}">All Products</a></li>
+                        @if(in_array('product_add',$role_permission) || strtolower($user_role) == 'admin') 
                         <li><a href="{{ route('add-product')}}">Add Product</a></li>
+                        @endif
 
 					</ul>
 				</li>
+                @endif
                
 
 
@@ -83,20 +87,21 @@
 
                 </ul>
                  </li> -->
-           
+                 @if(strtolower($user_role) == 'admin') 
 					<li><a class="ai-icon" href="{{ route('show-all-homepage_section') }}" aria-expanded="false">
 							<i class="la la-home"></i>
 							<span class="nav-text">Homepage Content</span>
 						</a>
                     </li>
-                  
-                    <li><a class="ai-icon" href="{{ route('show-all-banner') }}" aria-expanded="false">
+
+                 <li><a class="ai-icon" href="{{ route('show-all-banner') }}" aria-expanded="false">
                         <i class="la la-image"></i>
                         <span class="nav-text">Banner</span>
                     </a>
-                     </li>
-                     
-                 	<li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
+                 </li>
+                 @endif   
+                 @if(in_array('order_view',$role_permission) || strtolower($user_role) == 'admin') 	
+                 <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
 						<i class="la la-shopping-cart"></i>
 						<span class="nav-text">Order</span>
 					    </a>
@@ -109,9 +114,9 @@
 
                         </ul>
 			    	</li>
-                  
+                  @endif
                     
-
+                 @if(strtolower($user_role) == 'admin')
                     <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
 						<i class="la la-dropbox"></i>
 						<span class="nav-text">Retailer</span>
@@ -122,9 +127,9 @@
 
                         </ul>
                     </li>
+                @endif
 
-
-              
+                @if(in_array('report_view',$role_permission) || strtolower($user_role) == 'admin') 
                 <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                     <i class="la la-shopping-cart"></i>
                     <span class="nav-text">Report</span>
@@ -132,18 +137,15 @@
                     <ul aria-expanded="false">
 
                         <li><a href="{{url('admin/report/order')}}">Order Report</a></li>
-                        {{-- <li><a href="#">Purchase Report</a></li>
-                        <li><a href="#">Exense Report</a></li> --}}
-
-
+                       
 
                     </ul>
                 </li>
-                
+                @endif
 
 
 
-
+                @if(strtolower($user_role) == 'admin') 
                
                   <li><a class="has-arrow" href="javascript:void()" aria-expanded="false">
                     <i class="la la-gear"></i>
@@ -161,7 +163,7 @@
 
                     </ul>
                 </li>
-               
+               @endif
 
 
 

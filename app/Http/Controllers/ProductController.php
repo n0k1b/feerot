@@ -22,6 +22,8 @@ use App\Models\warehouse;
 use App\Models\warehouse_product;
 use App\Models\product_required_filed;
 use App\Models\homepage_product_list;
+use App\Models\retailerDetails;
+use Log;
 
 class ProductController extends Controller
 {
@@ -63,8 +65,8 @@ class ProductController extends Controller
 
     public function get_brand(Request $request)
     {
-        $sub_category_id = $request->sub_category_id;
-        $brands = product_brand::where('sub_category_id',$sub_category_id)->get();
+        $category_id = $request->category_id;
+        $brands = product_brand::where('category_id',$category_id)->get();
         $data = '<option>Selet Brand</option>';
         foreach($brands as $brand)
         {
@@ -396,7 +398,6 @@ class ProductController extends Controller
         if ($request->ajax()) {
             $datas = product::with('category:id,name','sub_category:id,category_id,name','unit:id,unit_type,unit_quantity')->select(['*']);
 
-
             $i=1;
                 foreach($datas as $data)
                 {
@@ -431,7 +432,7 @@ class ProductController extends Controller
 
                         $column = '<p onclick='.'edit('. $datas->id.',"category")'.'>'. $datas->category->name .'</p>';
                         else
-                        $column = '<p >'. $datas->sub_category->category->name .'</p>';
+                        $column = '<p >'. $datas->category->name .'</p>';
                          return $column;
                  })
 
@@ -642,8 +643,9 @@ class ProductController extends Controller
 
         }
         $warehouses = warehouse::where('status',1)->get();
+        $retailer = retailerDetails::where('status',1)->get();
         //file_put_contents('test.txt',json_encode($warehouses));
-        return view('admin.product.add',['description_status'=>$description_status,'detail_image_status'=>$detail_image_status,'brand_status'=>$brand_status,'color_status'=>$color_status,'size_status'=>$size_status,'warehouses'=>$warehouses]);
+        return view('admin.product.add',['description_status'=>$description_status,'detail_image_status'=>$detail_image_status,'brand_status'=>$brand_status,'color_status'=>$color_status,'size_status'=>$size_status,'warehouses'=>$warehouses,'retailers'=>$retailer]);
     }
     public function add_product(Request $request)
 
@@ -710,7 +712,7 @@ class ProductController extends Controller
         $user_role = Auth::guard('admin')->user()->role;
 
         $product = product::create([
-            'user_id'=> Auth::guard('admin')->user()->id,
+            'user_id'=> strtolower(Auth::guard('admin')->user()->role) == 'admin'?$request->retailer._id:Auth::guard('admin')->user()->id,
             'category_id'=>$request->category_id,
             'sub_category_id'=>$request->sub_category_id,
             'brand_id'=>$request->brand_id,

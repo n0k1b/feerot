@@ -13,5 +13,10 @@ class product_brand extends Model
     {
         return $this->belongsTo('App\Models\sub_category','sub_category_id','id');
     }
+    public function category()
+    {
+        return $this->belongsTo('App\Models\category','category_id','id');
+    }
+
 
 }

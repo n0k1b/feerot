@@ -74,7 +74,7 @@ class AndroidController extends Controller
                     ]);
                }
 
-               array_push($data,['section_name'=>$section_shop->section_name,'shop'=>$shop_list]);
+               array_push($data,['section_name'=>$section_shop->section_name,'section_order'=>$section_shop->section_order,'shop'=>$shop_list]);
            }
 
         $response = ["data" =>$data,'banner'=>$banner,'status_code'=>200];
@@ -872,7 +872,9 @@ class AndroidController extends Controller
             $product = product::where('id',$id)->first();
             $product->thumbnail_image = $this->base_url.$product->thumbnail_image;
             $product->detail_image = [$this->base_url.$product->product_detail_image_1,$this->base_url.$product->product_detail_image_2,$this->base_url.$product->product_detail_image_3,$this->base_url.$product->product_detail_image_4];
-            $response = ["product_details" => $product];
+            $you_might_also_like = product::where('id','!=',$id)->where('user_id',$product->user_id)->get();
+            $stores_our_memebers_love = homepage_section::where('section_order',1)->first()->shop;
+            $response = ["product_details" => $product,'you_might_also_like'=>$you_might_also_like,'stores_our_members_love'=>$stores_our_memebers_love];
             return response($response, 200);
         }
 

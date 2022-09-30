@@ -20,39 +20,27 @@ $(function() {
                 type: 'post',
                 data: formdata,
                 url: 'get_sub_category',
-                success: function(data) {
-
-
+                success: function(data) { 
                     $('.sub_category').html(data);
-
-
-                }
-            })
-
-        });
-
-        $('.sub_category').on('change', function() {
-
-            var sub_category_id = this.value;
-            var formdata = new FormData();
-            formdata.append('sub_category_id', sub_category_id);
-
-            $.ajax({
-                processData: false,
-                contentType: false,
-                type: 'post',
-                data: formdata,
-                url: 'get_brand',
-                success: function(data) {
-
-                    $('.brand').html(data);
-
+                    $.ajax({
+                        processData: false,
+                        contentType: false,
+                        type: 'post',
+                        data: formdata,
+                        url: 'get_brand',
+                        success: function(data) { 
+                            $('.brand').html(data);
+                            
+        
+                        }
+                    })
 
                 }
             })
 
         });
 
+      
 
 
 
@@ -71,6 +59,19 @@ $(function() {
                 success: function(data) {
 
                     $('#sub_category').html(data);
+                    $.ajax({
+                        processData: false,
+                        contentType: false,
+                        type: 'post',
+                        data: formdata,
+                        url: 'get_brand',
+                        success: function(data) {
+        
+                            $('#brand').html(data);
+                       
+        
+                        }
+                    })
 
 
 
@@ -79,29 +80,7 @@ $(function() {
 
         });
 
-        $('#sub_category').on('change', function() {
-
-            var sub_category_id = this.value;
-            var formdata = new FormData();
-            formdata.append('sub_category_id', sub_category_id);
-
-            $.ajax({
-                processData: false,
-                contentType: false,
-                type: 'post',
-                data: formdata,
-                url: 'get_brand',
-                success: function(data) {
-
-                    $('#brand').html(data);
-
-
-                }
-            })
-
-        });
-
-
+       
     })
     //domain start
 function domain_active_status(id) {

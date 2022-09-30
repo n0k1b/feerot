@@ -57,8 +57,8 @@
                                             <?php
                                             $checked = $data->status=='1'?'checked':''; ?>
                                             <td><strong>{{$data->sl_no}}</strong></td>
-                                            <td>{{ $data->sub_category->category->name }}</td>
-                                            <td>{{ $data->sub_category->name }}</td>
+                                            <td>{{ $data->category->name }}</td>
+                                            <td>{{ $data->sub_category_id?$data->sub_category->name:null}}</td>
                                             <td>{{$data->brand_name}}</td>
                                             <td>{{$data->brand_details}}</td>
                                             <td><img width="100" src="../{{$data->image}}" alt="Not Available" /></td>
