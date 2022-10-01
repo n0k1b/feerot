@@ -126,6 +126,9 @@
 												<thead>
 													<tr>
 														{{-- <th>#</th> --}}
+                                                        @if(auth()->guard('admin')->user()->role =='Admin')
+                                                        <th>Shop Name</th>
+                                                        @endif
 														<th>Category Name</th>
                                                         <th>Sub Category Name</th>
 
@@ -322,7 +325,9 @@
           deferRender: true,
           columns: [
             //   {data: 'sl_no'},
-
+            @if(auth()->guard('admin')->user()->role == 'Admin')
+            {data:'shop_name',name:'shop_name'},
+            @endif    
             {data:'category_name',name:'category_name'},
               {data:'sub_category_name',name:'sub_category_name'},
               {data:'product_name',name:'name'},

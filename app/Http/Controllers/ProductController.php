@@ -544,6 +544,16 @@ class ProductController extends Controller
                     $column = '<p >'. implode(',',$datas->color) .'</p>';
                      return $column;
                  })
+
+                 ->addColumn('shop_name', function($datas){
+                    $permission = $this->permission();
+
+                    if(in_array('product_edit',$permission))
+                    $column = '<p >'. $datas->user->retailer->shop_name .'</p>';
+                    else
+                    $column = '<p >'. $datas->user->retailer->shop_name .'</p>';
+                     return $column;
+                 })
                  ->addColumn('action', function($data){
 
                     $permission = $this->permission();
@@ -559,7 +569,7 @@ class ProductController extends Controller
 
 
 
-                    ->rawColumns(['status','category_name','sub_category_name','product_name','product_image','product_price','product_unit_type','product_unit_quantity','product_stock_amount','product_size','product_color','action'])
+                    ->rawColumns(['shop_name','status','category_name','sub_category_name','product_name','product_image','product_price','product_unit_type','product_unit_quantity','product_stock_amount','product_size','product_color','action'])
                     ->make(true);
         }
 

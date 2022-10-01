@@ -11,6 +11,11 @@ use Laravel\Passport\HasApiTokens;
 class User extends Authenticatable
 {
     use HasFactory, Notifiable, HasApiTokens;
+
+    public function retailer()
+    {
+        return $this->hasOne('App\Models\retailerDetails','user_id','id');
+    }
     protected $guarded = [];
 
 }

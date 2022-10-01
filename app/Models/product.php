@@ -16,6 +16,11 @@ class product extends Model
         return $this->belongsTo('App\Models\category','category_id','id');
     }
 
+    public function user()
+    {
+        return $this->belongsTo('App\Models\user','user_id','id');
+    }
+
 
     public function sub_category()
     {
