@@ -136,7 +136,7 @@
                     </a>
                     <ul aria-expanded="false">
 
-                        <li><a href="{{url('admin/report/order')}}">Order Report</a></li>
+                        <li><a href="{{url('report/order')}}">Order Report</a></li>
                        
 
                     </ul>

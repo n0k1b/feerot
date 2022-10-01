@@ -120,13 +120,13 @@ class RetailerController extends Controller
     }
     public function add_retailer(Request $request)
     {
-        $validator = Validator::make($request->all(), [
-            'user_id' => ['required','unique:retailer_details' ],
-         ]);
-    if($validator->fails())
-    {
-        return redirect()->back()->with('errors',collect($validator->errors()->all()));
-    }
+    //     $validator = Validator::make($request->all(), [
+    //         'user_id' => ['required','unique:retailer_details' ],
+    //      ]);
+    // if($validator->fails())
+    // {
+    //     return redirect()->back()->with('errors',collect($validator->errors()->all()));
+    // }
     
         $thumbnail_image = time() . '.' . request()->thumbnail_image->getClientOriginalExtension();
         $request
