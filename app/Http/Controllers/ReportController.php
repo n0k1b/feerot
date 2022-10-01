@@ -14,7 +14,6 @@ use Auth;
 use Illuminate\Support\Facades\Validator;
 use Session;
 
-
 class ReportController extends Controller
 {
     //

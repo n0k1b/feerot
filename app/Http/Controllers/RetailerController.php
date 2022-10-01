@@ -109,8 +109,6 @@ class RetailerController extends Controller
         }
         $permission = $this->permission();
         return view('admin.retailer.all',['datas'=>$datas,'role_permission'=>$permission]);
-
-
     }
 
     public function add_retailer_ui()
@@ -139,9 +137,8 @@ class RetailerController extends Controller
         ->banner_image
         ->move(public_path('image/retailer/banner_image') , $banner_image);
         $banner_image = "image/retailer/banner_image/" . $banner_image;
-
-
         
+
         $retailer_details = new retailerDetails;
         $retailer_details->user_id = $request->user_id;
         $retailer_details->shop_name = $request->shop_name;
@@ -152,7 +149,6 @@ class RetailerController extends Controller
         $retailer_details->save();
     
         return redirect()->route('show-all-retailer')->with('success','Retailer Added Successfully');
-
 
     }
 

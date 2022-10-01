@@ -9,11 +9,9 @@ use App\Models\sub_category;
 
 class BrandController extends Controller
 {
-    //
 
     public function show_all_brand()
     {
-
         $datas = product_brand::get();
         $i=1;
         foreach($datas as $data)
@@ -21,7 +19,6 @@ class BrandController extends Controller
             $data['sl_no'] = $i++;
         }
         return view('admin.brand.all',['datas'=>$datas]);
-
 
     }
 
@@ -45,12 +42,8 @@ class BrandController extends Controller
         else{
             product_brand::create(['brand_name'=>$request->name,'category_id'=>$request->category_id,'sub_category_id'=>$request->sub_category_id,'brand_details'=>$request->brand_details]);
         }
-       //file_put_contents('test.txt',$request->name." ".$request->image);
-
-
+       
         return redirect()->route('show-all-brand')->with('success','Brand Added Successfully');
-
-
     }
 
     public function brand_active_status_update(Request $request)
@@ -72,7 +65,6 @@ class BrandController extends Controller
         $content = product_brand::where('id',$id)->first();
         $datas = category::get();
         return view('admin.brand.edit_content',['content'=>$content,'datas'=>$datas]);
-
     }
     public function edit_brand_image_ui(Request $request)
     {
@@ -84,7 +76,6 @@ class BrandController extends Controller
     public function update_brand_content(Request $request)
     {
         $id = $request->id;
-
         product_brand::where('id', $id)->update(['brand_name' => $request->brand_name,'sub_category_id'=>$request->sub_category_id]);
 
         return redirect()
@@ -103,7 +94,6 @@ class BrandController extends Controller
            }
         }
         $image = time() . '.' . request()->image->getClientOriginalExtension();
-
         $request->image->move(public_path('image/brand_image') , $image);
         $image = "image/brand_image/" . $image;
 

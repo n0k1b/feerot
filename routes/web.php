@@ -20,8 +20,6 @@ use Illuminate\Support\Facades\URL;
 
 
 
-
-
 //frontend start
 
 // Route::view('abc'');
@@ -41,9 +39,6 @@ Route::group(['middleware' => 'IsAdmin'], function()
     Route::get('report/{type}','ReportController@report_view');
     Route::get('show_order_report','ReportController@show_order_report')->name('show_order_report');
     Route::post('show_all_report','ReportController@show_all_report')->name('show_all_report');
-
-    //
-
 
      //category start
      Route::get('show-all-category','CategoryController@show_all_category')->name('show-all-category');
@@ -70,8 +65,6 @@ Route::group(['middleware' => 'IsAdmin'], function()
      Route::post('update_brand_image','BrandController@update_brand_image')->name('update_brand_image');
 
      //brand end
-
-
 
 
       //sub category start
@@ -119,7 +112,6 @@ Route::group(['middleware' => 'IsAdmin'], function()
       Route::post('update_purchase','PurchaseController@update_purchase')->name('update_purchase');
 
       //purchase end
-
 
 
       //homepgae_content_start
@@ -189,8 +181,6 @@ Route::group(['middleware' => 'IsAdmin'], function()
     Route::post('update_order_status','OrderController@update_order_status')->name('update_order_status');
 
     //order end
-
-
 
     //All User start
 

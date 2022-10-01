@@ -91,7 +91,7 @@
     			<div class="row page-titles mx-0">
                     <div class="col-sm-6 p-md-0">
                         <div class="welcome-text">
-                            <h4>All Product</h4>
+                            <h4>All Products</h4>
                         </div>
                     </div>
                     <div class="col-sm-6 p-md-0 justify-content-sm-end mt-2 mt-sm-0 d-flex">
@@ -136,8 +136,8 @@
 
                                                        
                                                         <th>Stock</th>
-
-
+                                                        <th>Size</th>
+                                                        <th>Color</th>
 														<th>Active Status</th>
 
                                                         <th>Action</th>
@@ -330,7 +330,9 @@
             {data:'product_image',name:'product_image'},
               {data:'product_price',name:'product_price'},
              
-              {data:'produc_stock_amount',name:'produc_stock_amount'},
+              {data:'product_stock_amount',name:'product_stock_amount'},
+              {data:'product_size',name:'product_size'},
+              {data:'product_color',name:'product_color'},
             {
                 data: 'status',
                 name: 'status',

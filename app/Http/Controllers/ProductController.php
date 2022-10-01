@@ -374,7 +374,7 @@ class ProductController extends Controller
 
         if($column_name == 'product_unit_quantity')
         {
-            file_put_contents('test.txt',$input_value.' '.$product_id);
+
             product::where('id',$product_id)->update(['unit_quantity'=>$input_value]);
         }
 
@@ -515,13 +515,33 @@ class ProductController extends Controller
 
                      return $column;
                  })
-                 ->addColumn('produc_stock_amount', function($datas){
+                 ->addColumn('product_stock_amount', function($datas){
                     $permission = $this->permission();
 
                     if(in_array('product_edit',$permission))
                     $column = '<p >'. $datas->stock .'</p>';
                     else
                     $column = '<p >'. $datas->stock .'</p>';
+                     return $column;
+                 })
+
+                 ->addColumn('product_size', function($datas){
+                    $permission = $this->permission();
+
+                    if(in_array('product_edit',$permission))
+                    $column = '<p >'. implode(',',$datas->size) .'</p>';
+                    else
+                    $column = '<p >'. implode(',',$datas->size) .'</p>';
+                     return $column;
+                 })
+
+                 ->addColumn('product_color', function($datas){
+                    $permission = $this->permission();
+
+                    if(in_array('product_edit',$permission))
+                    $column = '<p >'. implode(',',$datas->color) .'</p>';
+                    else
+                    $column = '<p >'. implode(',',$datas->color) .'</p>';
                      return $column;
                  })
                  ->addColumn('action', function($data){
@@ -539,7 +559,7 @@ class ProductController extends Controller
 
 
 
-                    ->rawColumns(['status','category_name','sub_category_name','product_name','product_image','product_price','product_unit_type','product_unit_quantity','produc_stock_amount','action'])
+                    ->rawColumns(['status','category_name','sub_category_name','product_name','product_image','product_price','product_unit_type','product_unit_quantity','product_stock_amount','product_size','product_color','action'])
                     ->make(true);
         }
 
@@ -710,9 +730,11 @@ class ProductController extends Controller
         }
        
         $user_role = Auth::guard('admin')->user()->role;
-
+        $product_size = explode(',',$request->size);
+        $product_color = explode(',',$request->color);
+        Log::info(json_encode($product_size));
         $product = product::create([
-            'user_id'=> strtolower(Auth::guard('admin')->user()->role) == 'admin'?$request->retailer._id:Auth::guard('admin')->user()->id,
+            'user_id'=> strtolower($user_role) == 'admin'?$request->retailer_id:Auth::guard('admin')->user()->id,
             'category_id'=>$request->category_id,
             'sub_category_id'=>$request->sub_category_id,
             'brand_id'=>$request->brand_id,
@@ -724,8 +746,8 @@ class ProductController extends Controller
             'product_detail_image_2'=>$image_2,
             'product_detail_image_3'=>$image_3,
             'product_detail_image_4'=>$image_4,
-            'size'=>$request->size,
-            'color'=>$request->color,
+            'size'=>$product_size,
+            'color'=>$product_color,
             'product_details'=>$request->product_detials,
             'product_look_after_me'=>$request->product_look_after_me,
             'product_about_me'=>$request->product_about_me]);
