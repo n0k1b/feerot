@@ -172,17 +172,55 @@ class RetailerController extends Controller
     public function edit_retailer_content_ui(Request $request)
     {
         $id = $request->id;
+        $content = retailerDetails::where('id',$id)->first();
+        $datas = User::where('role','Retailer')->get();
+        return view('admin.retailer.edit_content',['content'=>$content,'datas'=>$datas]);
+    }
+
+    public function edit_retailer_image_ui(Request $request)
+    {
+        $id = $request->id;
         $data = retailerDetails::where('id',$id)->first();
-        //$retailers = retailerDetails::where('status',1)->get();
-        return view('admin.retailer.edit_content',['data'=>$data]);
+        return view('admin.retailer.edit_image',['data'=>$data]);
 
     }
+
 
     public function update_retailer_content(Request $request)
     {
         $id = $request->id;
 
-        retailerDetails::where('id', $id)->update(['name' => $request->name]);
+        $retailer_details = retailerDetails::find($id);
+        $retailer_details->user_id = $request->user_id;
+        $retailer_details->shop_name = $request->shop_name;
+        $retailer_details->address = $request->address;
+        $retailer_details->website_address = $request->website_address;
+        $retailer_details->update();
+
+        return redirect()
+            ->route('show-all-retailer')
+            ->with('success', "Data Updated Successfully");
+    }
+    public function update_retailer_image(Request $request)
+    {
+        $id = $request->id;
+
+        $thumbnail_image = time() . '.' . request()->thumbnail_image->getClientOriginalExtension();
+        $request
+        ->thumbnail_image
+        ->move(public_path('image/retailer') , $thumbnail_image);
+        $thumbnail_image = "image/retailer/" . $thumbnail_image;
+
+        $banner_image = time() . '.' . request()->banner_image->getClientOriginalExtension();
+        $request
+        ->banner_image
+        ->move(public_path('image/retailer') , $banner_image);
+        $banner_image = "image/retailer/" . $banner_image;
+
+        $retailer_details = retailerDetails::find($id);
+        $retailer_details->thumbnail_image = $thumbnail_image;
+        $retailer_details->banner_image = $banner_image;
+        $retailer_details->update();
 
         return redirect()
             ->route('show-all-retailer')
@@ -193,7 +231,7 @@ class RetailerController extends Controller
     public function retailer_content_delete(Request $request)
     {
         $id = $request->id;
-        retailerDetails::where('id', $id)->update(['delete_status'=>1]);
+        retailerDetails::where('id', $id)->delete();
 
     }
 

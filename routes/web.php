@@ -240,6 +240,10 @@ Route::group(['middleware' => 'IsAdmin'], function()
    Route::get('retailer_active_status_update/{id}','RetailerController@retailer_active_status_update');
    Route::get('edit_retailer_content/{id}','RetailerController@edit_retailer_content_ui')->name('edit_retailer_content');
    Route::post('update_retailer_content','RetailerController@update_retailer_content')->name('update_retailer_content');
+
+   Route::get('edit_retailer_image/{id}','RetailerController@edit_retailer_image_ui');
+   Route::post('update_retailer_image','RetailerController@update_retailer_image')->name('update_retailer_image');
+
    Route::get('retailer_content_delete/{id}','RetailerController@retailer_content_delete');
    Route::get('retailer_product/{id}','RetailerController@retailer_content_delete')->name('retailer_content_delete');
    //retailer end

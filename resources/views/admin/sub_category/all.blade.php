@@ -72,13 +72,13 @@
                                             <td><img width="100" src="../{{$data->image}}" alt="Not Available" /></td>
                                             <td>
                                                 <label class="switch">
-                                                    <input type="checkbox" onclick="sub_category_active_status({{$data->id}})" {{$checked}} />
+                                                    <input type="checkbox" onclick="retailer_active_status({{$data->id}})" {{$checked}} />
                                                     <span class="slider round"></span>
                                                 </label>
                                             </td>
                                             <td>
                                                 <a href="edit_sub_category_content/{{$data->id}}" class="btn btn-sm btn-primary"><i class="la la-pencil"></i></a>
-                                                <a href="javascript:void(0);" class="btn btn-sm btn-danger" onclick="sub_category_content_delete({{$data->id}})"><i class="la la-trash-o"></i></a>
+                                                <a href="javascript:void(0);" class="btn btn-sm btn-danger" onclick="retailer_content_delete({{$data->id}})"><i class="la la-trash-o"></i></a>
                                             </td>
                                             <td>
                                                 <a href="edit_sub_category_image/{{$data->id}}" class="btn btn-sm btn-info"><i class="la la-pencil"></i></a>

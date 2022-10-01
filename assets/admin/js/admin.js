@@ -114,7 +114,41 @@ function domain_content_delete(id) {
         })
     }
 }
+
 //domain end
+
+//retailer start
+function retailer_active_status(id) {
+    $.ajax({
+        processData: false,
+        contentType: false,
+        type: 'GET',
+        url: 'retailer_active_status_update/' + id,
+        success: function(data) {
+
+
+        }
+    })
+}
+
+function retailer_content_delete(id) {
+
+    var conf = confirm('Are you sure?');
+
+    if (conf == true) {
+        $.ajax({
+            processData: false,
+            contentType: false,
+            type: 'GET',
+            url: 'retailer_content_delete/' + id,
+            success: function(data) {
+                alert('Content Delete Successfully')
+                location.reload();
+
+            }
+        })
+    }
+}
 
 //category start
 function category_active_status(id) {
