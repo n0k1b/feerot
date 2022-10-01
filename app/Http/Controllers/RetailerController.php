@@ -131,14 +131,14 @@ class RetailerController extends Controller
         $thumbnail_image = time() . '.' . request()->thumbnail_image->getClientOriginalExtension();
         $request
         ->thumbnail_image
-        ->move(public_path('image/retailer') , $thumbnail_image);
-        $thumbnail_image = "image/retailer/" . $thumbnail_image;
+        ->move(public_path('image/retailer/thumbnail_image') , $thumbnail_image);
+        $thumbnail_image = "image/retailer/thumbnail_image/" . $thumbnail_image;
 
         $banner_image = time() . '.' . request()->banner_image->getClientOriginalExtension();
         $request
         ->banner_image
-        ->move(public_path('image/retailer') , $banner_image);
-        $banner_image = "image/retailer/" . $banner_image;
+        ->move(public_path('image/retailer/banner_image') , $banner_image);
+        $banner_image = "image/retailer/banner_image/" . $banner_image;
 
 
         
