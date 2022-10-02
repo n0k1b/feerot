@@ -71,7 +71,7 @@ Route::post('search_courier_man','AndroidController@search_courier_man');
 //test api
 
 Route::post('login_delivery_man','AndroidController@login_delivery_man');
-  Route::group(['middleware' => ['json.response'],'middleware' => ['auth:api']], function ()  { 
+ Route::group(['middleware' => ['json.response'],'middleware' => ['auth:api']], function ()  { 
     Route::post('todays_order','AndroidController@todays_order');
     Route::post('all_order','AndroidController@all_order');
      Route::post('order_picked','AndroidController@order_picked');

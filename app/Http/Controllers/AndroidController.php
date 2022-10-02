@@ -316,7 +316,7 @@ class AndroidController extends Controller
     }
     public function get_shop_product($id){
 
-        $retailer_details = retailerDetails::find($id)->first();
+        $retailer_details = retailerDetails::where('id',$id)->first();
         $retailer_details->thumbnail_image = $this->base_url.$retailer_details->thumbnail_image;
         $retailer_details->banner_image = $this->base_url.$retailer_details->banner_image;
         $user_id = retailerDetails::find($id)->user->user_id;
