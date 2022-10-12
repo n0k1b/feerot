@@ -74,7 +74,7 @@ class AndroidController extends Controller
                     ]);
                }
 
-               array_push($data,['section_name'=>$section_shop->section_name,'section_order'=>$section_shop->section_order,'shop'=>$shop_list]);
+               array_push($data,['section_id'=>$section_shop->id,'section_name'=>$section_shop->section_name,'section_order'=>$section_shop->section_order,'shop'=>$shop_list]);
            }
 
         $response = ["data" =>$data,'banner'=>$banner,'status_code'=>200];
