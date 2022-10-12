@@ -197,9 +197,10 @@ class AndroidController extends Controller
                     'previous_discount'=>20
                     ]);
                }
+        $section_name = homepage_section::where('id',$id)->first()->section_name;
            
 
-        $response = ["data" =>$shop_list,'status_code'=>200];
+        $response = ["data" =>$shop_list,"section_name"=>$section_name,'status_code'=>200];
         return response($response, 200);
     }
       public function get_category(Request $request)
