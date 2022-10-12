@@ -60,6 +60,7 @@ Route::group(['middleware' => ['json.response'],'middleware' => ['auth:api']], f
        Route::post('delivery_man_login','AndroidController@delivery_man_login');
        Route::post('delivery_man_registration','AndroidController@delivery_man_registration');
          //deliveryman_end
+       Route::get('section-shop-all/{id}','AndroidController@sectionShopAll');
 
 
 

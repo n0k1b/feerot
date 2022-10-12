@@ -174,45 +174,33 @@ class AndroidController extends Controller
          'price'=>$cart->price]);
         }
 
-           // $order_no = $order->order_no;
-            // $order_list = array();
-            // $order_detail = order_details::where('order_no',$order->id)->get();
-            // $order_details = array();
-            // $sub_total = 0;
-            //   for($j=0;$j<sizeof($order_detail);$j++)
-            // {
-            //     $sub_total+=$order_detail[$j]->price*$order_detail[$j]->count;
-            //     array_push($order_details,
-            //     ['id'=>$order_detail[$j]->id,
-            //     'price'=>$order_detail[$j]->price,
-            //     'count'=>$order_detail[$j]->count,
-            //     'name'=>$order_detail[$j]->product->name,
-            //     'image'=>$this->base_url.$order_detail[$j]->product->thumbnail_image,
-            //     'total'=>$order_detail[$j]->price*$order_detail[$j]->count]);
-
-            // }
-            // $delivery_fee = 60;
-           
-
-            // $order_date =  date("d-m-Y h:i:s", strtotime($order->created_at));
-
-
-
-
-            // array_push($order_list,[
-            //     'order_no'=>$order->order_no,
-            //     'order_date'=>$order_date,
-            //     'status'=>$order->status,
-            //     'delivery_fee'=>$delivery_fee,
-            //     'delivery_address'=>$order->address->address,
-            //     'subtotal'=>$sub_total+$delivery_fee,
-            //     'product'=>$order_details]);
-
-
-
+          
          $response = ['status_code'=>200,'message'=>'Order submitted successfully'];
         return response($response, 200);
 
+    }
+
+    public function sectionShopAll($id)
+    {
+        $shop_lists = homepage_product_list::where('homepage_section_id',$id)->get();
+        $shop_list = array();
+               foreach($shop_lists as $shop)
+               {
+                   array_push($shop_list,[
+                    'id'=>$shop->retailer->id,
+                    'name'=>$shop->retailer->shop_name,
+                    'thumbnail_image'=>$this->base_url.$shop->retailer->thumbnail_image,
+                    'banner_image'=>$this->base_url.$shop->retailer->banner_image,
+                    'address'=> $shop->retailer->address,
+                    'website_address'=>$shop->retailer->website_address,
+                    'discount_percentage'=>80,
+                    'previous_discount'=>20
+                    ]);
+               }
+           
+
+        $response = ["data" =>$shop_list,'status_code'=>200];
+        return response($response, 200);
     }
       public function get_category(Request $request)
     {
