@@ -97,6 +97,13 @@
 											</div>
 										</div>
 
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+											<div class="form-group">
+												<label class="form-label">Discount Percentage(optional)</label>
+												<input type="number" class="form-control" name="discount_percentage">
+											</div>
+										</div>
+
 
 										<div class="col-lg-12 col-md-12 col-sm-12">
 											<button type="submit" class="btn btn-primary">Submit</button>

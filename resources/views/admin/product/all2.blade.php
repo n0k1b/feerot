@@ -136,7 +136,7 @@
                                                         {{-- <th>Warehouse</th> --}}
                                                         <th>Image</th>
                                                         <th>Unit Price</th>
-
+                                                        <th>Discount Price</th>
                                                        
                                                         <th>Stock</th>
                                                         <th>Size</th>
@@ -334,6 +334,7 @@
             //   {data:'warehouse',name:'warehouse'},
             {data:'product_image',name:'product_image'},
               {data:'product_price',name:'product_price'},
+              {data:'discount_price',name:'discount_price'},
              
               {data:'product_stock_amount',name:'product_stock_amount'},
               {data:'product_size',name:'product_size'},

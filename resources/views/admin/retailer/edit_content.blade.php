@@ -68,6 +68,14 @@
 												<input type="text" class="form-control" name="website_address" value="{{ $content->website_address }}">
 											</div>
 										</div>
+
+                                        <div class="col-lg-12 col-md-12 col-sm-12">
+											<div class="form-group">
+												<label class="form-label">Discount Percentage(optional)</label>
+												<input type="number" class="form-control" name="discount_percentage"  value="{{ $content->discount_percentage }}">
+											</div>
+										</div>
+
                                       
 
 

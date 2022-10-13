@@ -47,6 +47,7 @@
                                             <th>Banner Image</th>
                                             <th>Address</th>
                                             <th>Website Address</th>
+                                            <th>Discount Percentage</th>
                                             <th>Status</th>
                                             <th>Action</th>
                                             <th>Image Edit</th>
@@ -64,6 +65,7 @@
                                             <td><img width="100" src="{{asset('public/'.$data->banner_image)}}" alt="Not Available" /></td>
                                             <td>{{$data->address}}</td>
                                             <td>{{$data->website_address}}</td>
+                                            <td>{{$data->discount_percentage}}</td>
                                            
                                             <td>
                                                 <label class="switch">

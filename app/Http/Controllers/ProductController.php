@@ -253,6 +253,17 @@ class ProductController extends Controller
         </div>';
         }
 
+        if($column_name == 'discount_price')
+        {
+            $discount_price = product::where('id',$product_id)->first()->discount_price;
+            $data.='<div class="col-lg-12 col-md-12 col-sm-12">
+            <div class="form-group">
+                <label>Product Unit Price</label>
+                <input type="text" class="form-control" id="value" name="name" value="'.$discount_price.'"  />
+            </div>
+        </div>';
+        }
+
         if($column_name == 'product_unit_type')
         {
             $product = product::where('id',$product_id)->first();
@@ -365,6 +376,12 @@ class ProductController extends Controller
         {
 
             product::where('id',$product_id)->update(['price'=>$input_value]);
+        }
+
+        if($column_name == 'discount_price')
+        {
+
+            product::where('id',$product_id)->update(['discount_price'=>$input_value]);
         }
 
         if($column_name == 'product_unit_type')
@@ -499,6 +516,16 @@ class ProductController extends Controller
 
                      return $column;
                  })
+                 ->addColumn('discount_price', function($datas){
+                    $permission = $this->permission();
+
+                    if(in_array('product_edit',$permission))
+                    $column = '<p onclick='.'edit('. $datas->id.',"discount_price")'.'>'. $datas->discount_price .'</p>';
+                    else
+                    $column = '<p>'. $datas->discount_price .'</p>';
+
+                     return $column;
+                 })
                  ->addColumn('product_unit_type', function($datas){
                     $permission = $this->permission();
 
@@ -569,7 +596,7 @@ class ProductController extends Controller
 
 
 
-                    ->rawColumns(['shop_name','status','category_name','sub_category_name','product_name','product_image','product_price','product_unit_type','product_unit_quantity','product_stock_amount','product_size','product_color','action'])
+                    ->rawColumns(['shop_name','discount_price','status','category_name','sub_category_name','product_name','product_image','product_price','product_unit_type','product_unit_quantity','product_stock_amount','product_size','product_color','action'])
                     ->make(true);
         }
 
@@ -742,7 +769,6 @@ class ProductController extends Controller
         $user_role = Auth::guard('admin')->user()->role;
         $product_size = explode(',',$request->size);
         $product_color = explode(',',$request->color);
-        Log::info(json_encode($product_size));
         $product = product::create([
             'user_id'=> strtolower($user_role) == 'admin'?$request->retailer_id:Auth::guard('admin')->user()->id,
             'category_id'=>$request->category_id,

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\product;
 use Illuminate\Http\Request;
 use App\Models\retailerDetails;
 use App\Models\User;
@@ -116,6 +117,16 @@ class RetailerController extends Controller
         $datas = User::where('role','Retailer')->get();
         return view('admin.retailer.add',compact('datas'));
     }
+
+    private function syncProduct($userId,$discount_percentage)
+    {
+        $products = product::where('user_id',$userId)->get();
+        foreach($products as $product){
+            $discount_price = $product->price- floor(($product->price * $discount_percentage)/100);
+            product::where('id',$product->id)->update(['discount_price'=>$discount_price]);
+        }
+        
+    }
     public function add_retailer(Request $request)
     {
     //     $validator = Validator::make($request->all(), [
@@ -146,7 +157,9 @@ class RetailerController extends Controller
         $retailer_details->banner_image = $banner_image;
         $retailer_details->address = $request->address;
         $retailer_details->website_address = $request->website_address;
+        $retailer_details->discount_percentage = $request->discount_percentage;
         $retailer_details->save();
+        $this->syncProduct($retailer_details->user_id,$retailer_details->discount_percentage);
     
         return redirect()->route('show-all-retailer')->with('success','Retailer Added Successfully');
 
@@ -191,7 +204,9 @@ class RetailerController extends Controller
         $retailer_details->shop_name = $request->shop_name;
         $retailer_details->address = $request->address;
         $retailer_details->website_address = $request->website_address;
+        $retailer_details->discount_percentage = $request->discount_percentage;
         $retailer_details->update();
+        $this->syncProduct($retailer_details->user_id,$retailer_details->discount_percentage);
 
         return redirect()
             ->route('show-all-retailer')

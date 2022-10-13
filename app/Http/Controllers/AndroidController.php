@@ -69,7 +69,7 @@ class AndroidController extends Controller
                     'banner_image'=>$this->base_url.$shop->retailer->banner_image,
                     'address'=> $shop->retailer->address,
                     'website_address'=>$shop->retailer->website_address,
-                    'discount_percentage'=>80,
+                    'discount_percentage'=>$shop->retailer->discount_percentage,
                     'previous_discount'=>20
                     ]);
                }
