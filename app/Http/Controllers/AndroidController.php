@@ -38,7 +38,7 @@ class AndroidController extends Controller
 
     public function get_homepage_content(Request $request)
     {
-        $banner = banner::orderBy('order')->where('status', 1)->get();
+        $banner = banner::orderBy('order')->where('status', 1)->where('delete_status', 1)->get();
         foreach ($banner as $data) {
             $data['image'] = $this->base_url . "" . $data->image;
         }
