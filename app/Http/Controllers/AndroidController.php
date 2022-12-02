@@ -318,7 +318,7 @@ class AndroidController extends Controller
                     'contact_no' => $request->mobile_number,
                 ]);
                 $token = $user->createToken('Laravel Password Grant Client')->accessToken;
-                $response = ['token' => $token, "status_code" => 200, 'user_status' => 'new'];
+                $response = ['token' => $token, "status_code" => 200, 'user' => $user, 'user_status' => 'new'];
             }
             //return response($response, 200);
 
@@ -404,11 +404,13 @@ class AndroidController extends Controller
 
     public function registration(Request $request)
     {
-        $name = $request->name;
-        $email = $request->email;
-        $mobile_number = $request->mobile_number;
-        user::where('contact_no', $mobile_number)->update(['name' => $name, 'email' => $email]);
-        $response = ['status_code' => 200, 'message' => 'Data inserted successfully'];
+        $user_id = auth('api')->user()->id;
+        $user = user::find($user_id);
+        $user->name = $request->name;
+        $user->email = $request->email;
+        $user->save();
+
+        $response = ['status_code' => 200, 'message' => 'Data inserted successfully', 'user' => $user];
         // $response = ["status_code" =>200,'token'=>$token];//
         return response($response, 200);
 
