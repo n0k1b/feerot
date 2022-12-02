@@ -9,6 +9,7 @@ use App\Models\courier_man;
 use App\Models\deposit;
 use App\Models\homepage_product_list;
 use App\Models\homepage_section;
+use App\Models\NavBarSection;
 use App\Models\order;
 use App\Models\order_details;
 use App\Models\product;
@@ -22,6 +23,7 @@ use App\Models\warehouse;
 use DB;
 use Hash;
 use Illuminate\Http\Request;
+use Throwable;
 use Tzsk\Otp\Facades\Otp;
 
 class AndroidController extends Controller
@@ -797,6 +799,19 @@ class AndroidController extends Controller
         date_default_timezone_set("Asia/Bangkok");
         $date = date('Y-m-d h:i:s a');
         return $date;
+    }
+
+    public function get_nav_bar_section()
+    {
+        try {
+            $nav_bar_section = NavBarSection::where('status', 1)->with('shop')->get();
+            $response = ["nav_bar_section" => $nav_bar_section];
+            return response($response, 200);
+
+        } catch (Throwable $th) {
+            $response = ["message" => 'Something Went Wrong'];
+            return response($response, 400);
+        }
     }
 
 }
