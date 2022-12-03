@@ -10,6 +10,7 @@ class retailerDetails extends Model
 {
     use HasFactory, SoftDeletes;
     protected $guarded = [];
+    protected $appends = ['thumbnail_image'];
     protected $base_url = 'https://admin.feerot.com/public/';
 
     public function user()
