@@ -8,4 +8,8 @@ class NavBarSectionShop extends Model
 {
     //use HasFactory;
     protected $guarded = [];
+    public function retailer()
+    {
+        return $this->belongsTo(retailerDetails::class, 'retailer_id', 'id');
+    }
 }

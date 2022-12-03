@@ -23,7 +23,6 @@ use App\Models\warehouse;
 use DB;
 use Hash;
 use Illuminate\Http\Request;
-use Log;
 use Throwable;
 use Tzsk\Otp\Facades\Otp;
 
@@ -805,12 +804,12 @@ class AndroidController extends Controller
     public function get_nav_bar_section()
     {
         try {
-            $nav_bar_section = NavBarSection::where('status', 1)->with('shop')->get();
+            $nav_bar_section = NavBarSection::where('status', 1)->with(['shop', 'shop.retailer'])->get();
             $response = ["nav_bar_section" => $nav_bar_section];
             return response($response, 200);
 
         } catch (Throwable $th) {
-            Log::error($th);
+
             $response = ["message" => 'Something Went Wrong'];
             return response($response, 400);
         }
