@@ -806,14 +806,14 @@ class AndroidController extends Controller
     {
         try {
             $nav_bar_section = NavBarSection::where('status', 1)->with(['shop', 'shop.retailer'])->get();
-            foreach ($nav_bar_section as $section) {
-                foreach ($section->shop as $shop) {
-                    $shop->retailer->thumbnail_image = $this->base_url . $shop->retailer->thumbnail_image;
-                    $shop->retailer->banner_image = $this->base_url . $shop->retailer->banner_image;
-                    $shop->retailer->previous_discount = 20;
-                }
+            // foreach ($nav_bar_section as $section) {
+            //     foreach ($section->shop as $shop) {
+            //         $shop->retailer->thumbnail_image = $this->base_url . $shop->retailer->thumbnail_image;
+            //         $shop->retailer->banner_image = $this->base_url . $shop->retailer->banner_image;
+            //         $shop->retailer->previous_discount = 20;
+            //     }
 
-            }
+            // }
             $response = ["nav_bar_section" => $nav_bar_section];
             return response($response, 200);
 
