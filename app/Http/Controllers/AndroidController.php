@@ -810,6 +810,7 @@ class AndroidController extends Controller
                 foreach ($section->shop as $shop) {
                     $shop->retailer->thumbnail_image = $this->base_url . $shop->retailer->thumbnail_image;
                     $shop->retailer->banner_image = $this->base_url . $shop->retailer->banner_image;
+                    $shop->retailer->previous_discount = 20;
                 }
 
             }
