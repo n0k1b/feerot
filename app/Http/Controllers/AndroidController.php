@@ -804,7 +804,7 @@ class AndroidController extends Controller
     public function get_nav_bar_section()
     {
         try {
-            $nav_bar_section = NavBarSection::where('status', 1)->with(['shop', 'shop.retailer'])->get();
+            $nav_bar_section = NavBarSection::where('status', 1)->with(['shop', 'shop.retailerw'])->get();
             $response = ["nav_bar_section" => $nav_bar_section];
             return response($response, 200);
 
