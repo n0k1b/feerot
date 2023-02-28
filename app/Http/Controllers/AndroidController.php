@@ -120,8 +120,8 @@ class AndroidController extends Controller
 
         $carts = json_decode(json_encode($request->cart_items));
 
-        //$user_id = auth('api')->user()->id;
-        $user_id = 3;
+        $user_id = auth('api')->user()->id;
+        // $user_id = 3;
         $order_no = 'FF' . $user_id . mt_rand(10000, 99999);
         $sub_total = 0;
         foreach ($carts as $cart) {
