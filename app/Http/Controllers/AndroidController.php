@@ -84,7 +84,6 @@ class AndroidController extends Controller
                 $avail_courier_man = $courier->user_id;
                 break;
             }
-
         }
         if ($avail_courier_man == 0) {
             $all_courier = courier_man::where('area_id', 'LIKE', '%' . $area_id . '%')->where('status', 1)->orderBy(DB::raw('RAND()'))->take(1)->first();
@@ -93,11 +92,9 @@ class AndroidController extends Controller
             } else {
                 $avail_courier_man = 0;
             }
-
         }
 
         return $avail_courier_man;
-
     }
     public function token_insertion(Request $request)
     {
@@ -110,7 +107,6 @@ class AndroidController extends Controller
         }
         $response = ['status_code' => 200];
         return response($response, 200);
-
     }
     public function submit_order(Request $request)
     {
@@ -155,7 +151,6 @@ class AndroidController extends Controller
 
         $response = ['status_code' => 200, 'message' => 'Order submitted successfully'];
         return response($response, 200);
-
     }
 
     public function sectionShopAll($id)
@@ -189,7 +184,6 @@ class AndroidController extends Controller
         foreach ($category as $cat) {
             $data_sub_category = array();
             foreach ($cat->sub_category as $sub_category) {
-
                 array_push($data_sub_category, ['id' => $sub_category->id, 'name' => $sub_category->name, 'image' => $this->base_url . $sub_category->image]);
             }
 
@@ -204,7 +198,6 @@ class AndroidController extends Controller
 
     public function get_area(Request $request)
     {
-
         $area = area::where('status', 1)->get(); //array(['id'=>1,'name'=>'Muradpur'],['id'=>2,'name'=>'Panchalais'],['id'=>3,'name'=>"O.R Nizam Road"],['id'=>4,'name'=>"Bahaddarhat"],['id'=>5,'name'=>"2 no gate"]);
         // $response = ["area" =>$area,'status_code'=>200];
         return response($area, 200);
@@ -271,11 +264,9 @@ class AndroidController extends Controller
         }
         $response = ["products" => $products, 'shops' => $shops];
         return response($response, 200);
-
     }
     public function get_shop_product($id)
     {
-
         $retailer_details = retailerDetails::where('id', $id)->first();
         $retailer_details->thumbnail_image = $this->base_url . $retailer_details->thumbnail_image;
         $retailer_details->banner_image = $this->base_url . $retailer_details->banner_image;
@@ -298,7 +289,6 @@ class AndroidController extends Controller
     }
     public function logout(Request $request)
     {
-
         $request->user()->token()->revoke();
         $response = ["status_code" => 200, 'message' => 'Successfull'];
         return response($response, 200);
@@ -306,7 +296,6 @@ class AndroidController extends Controller
 
     public function submit_otp(Request $request)
     {
-
         $mobile_number = $request->mobile_number;
         $otp = $request->otp;
         $check = 1; //
@@ -323,8 +312,7 @@ class AndroidController extends Controller
                 $token = $user->createToken('Laravel Password Grant Client')->accessToken;
                 $response = ['token' => $token, "status_code" => 200, 'user' => $user, 'user_status' => 'new'];
             }
-            //return response($response, 200);
-
+        //return response($response, 200);
         } else {
             $response = ["status_code" => 400, 'error_msg' => "OTP not matched"];
         }
@@ -351,7 +339,6 @@ class AndroidController extends Controller
         $response = curl_exec($ch);
         curl_close($ch);
         //return $response;
-
     }
 
     public function str_random($length = 16)
@@ -363,7 +350,6 @@ class AndroidController extends Controller
 
     public function login(Request $request)
     {
-
         $mobile_number = $request->mobile_number;
         if (!$mobile_number) {
             $response = ['status_code' => 202, 'message' => 'Mobile number filed can not be empty'];
@@ -372,7 +358,6 @@ class AndroidController extends Controller
         $otp = 1234; // Otp::generate($mobile_number);
         $response = ['status_code' => 200, 'otp' => $otp];
         return response($response, 200);
-
     }
 
     public function login_delivery_man(Request $request)
@@ -416,7 +401,6 @@ class AndroidController extends Controller
         $response = ['status_code' => 200, 'message' => 'Data inserted successfully', 'user' => $user];
         // $response = ["status_code" =>200,'token'=>$token];//
         return response($response, 200);
-
     }
 
     public function get_order_details(Request $request)
@@ -436,13 +420,11 @@ class AndroidController extends Controller
             }
             $order_date = date("d-m-Y h:i:s", strtotime($order[$i]->created_at));
             $delivery_fee = 60;
-            array_push($order_list, ['order_no' => $order[$i]->order_no, 'order_date' => $order_date, 'status' => $order[$i]->status, 'delivery_address' => $order[$i]->address->address, 'delivery_fee' => $delivery_fee, 'subtotal' => $sub_total + $delivery_fee, 'product' => $order_details]);
-
+            array_push($order_list, ['order_no' => $order[$i]->order_no, 'order_date' => $order_date, 'status' => $order[$i]->status, 'delivery_address' => $order[$i]->address, 'delivery_fee' => $delivery_fee, 'subtotal' => $sub_total + $delivery_fee, 'product' => $order_details]);
         }
 
         $response = ["status_code" => 200, 'message' => 'successfull', 'order' => $order_list]; //
         return response($response, 200);
-
     }
 
     public function delivery_fee()
@@ -483,12 +465,10 @@ class AndroidController extends Controller
             $response = ["code" => 404, 'message' => 'User Not Registered. Please contact with Administrator'];
             return response($response, 200);
         }
-
     }
 
     public function delivery_man_registration(Request $request)
     {
-
         $a = json_decode($request->sender_information);
 
         //$file = $request->file('nid');
@@ -500,7 +480,7 @@ class AndroidController extends Controller
         if ($user) {
             $response = ["code" => 404, 'message' => 'User Already Registered'];
             return response($response, 200);
-        } else if (user::where('email', $a->email)->first()) {
+        } elseif (user::where('email', $a->email)->first()) {
             $response = ["code" => 405, 'message' => 'Email Already Registered'];
             return response($response, 200);
         } else {
@@ -548,14 +528,11 @@ class AndroidController extends Controller
             $token = $user->createToken('Laravel Password Grant Client')->accessToken;
             $response = ["code" => 200, 'message' => 'Login Successfull', 'token' => $token, 'user' => $user];
             return response($response, 200);
-
         }
-
     }
 
     public function update_area(Request $request)
     {
-
         $user_id = auth('api')->user()->id;
         $area_id = $request->area_id;
         $area = '';
@@ -581,7 +558,6 @@ class AndroidController extends Controller
             unset($order->created_at);
             unset($order->updated_at);
             foreach ($order_details as $products) {
-
                 $products->product->thumbnail_image = $this->base_url . $products->product->thumbnail_image;
                 $products->product->unit_quantity = $products->unit_quantity;
                 $products->product->count = $products->count;
@@ -591,7 +567,6 @@ class AndroidController extends Controller
                 $products->product->warehouse = $warehouse;
 
                 array_push($product, $products->product);
-
             }
 
             $order->order_total = $order_total;
@@ -602,13 +577,11 @@ class AndroidController extends Controller
 
             unset($order->address);
             unset($order->user);
-
         }
 
         // $response = ['order'=>$todays_order,'deposit_availavle'=>0];
 
         return response($todays_order, 200);
-
     }
 
     public function get_selected_area(Request $request)
@@ -623,14 +596,11 @@ class AndroidController extends Controller
             for ($i = 0; $i < sizeof($area); $i++) {
                 $area_name = area::where('id', $area[$i])->first()->name;
                 array_push($selected_area, ['id' => $area[$i], 'name' => $area_name]);
-
             }
-
         } else {
             $selected_area = array();
         }
         return response($selected_area, 200);
-
     }
 
     public function all_order(Request $request)
@@ -646,7 +616,6 @@ class AndroidController extends Controller
 
             unset($order->updated_at);
             foreach ($order_details as $products) {
-
                 $products->product->thumbnail_image = $this->base_url . $products->product->thumbnail_image;
                 $products->product->unit_quantity = $products->unit_quantity;
                 $products->product->count = $products->count;
@@ -655,7 +624,6 @@ class AndroidController extends Controller
                 $warehouse = warehouse::where('status', 1)->get();
                 $products->product->warehouse = $warehouse;
                 array_push($product, $products->product);
-
             }
 
             $order->order_total = $order_total;
@@ -666,7 +634,6 @@ class AndroidController extends Controller
 
             unset($order->address);
             unset($order->user);
-
         }
 
         $todays_order = $todays_order->groupBy('date');
@@ -676,7 +643,6 @@ class AndroidController extends Controller
             foreach ($value as $data) {
                 $data->date = date("d-m-Y h:i:s", strtotime($data->created_at));
                 unset($data->created_at);
-
             }
             array_push($all_order, ['date' => $key, 'order' => $value]);
         }
@@ -686,7 +652,6 @@ class AndroidController extends Controller
         //$response = ['order'=>$todays_order,'deposit_availavle'=>0];
 
         return response($all_order, 200);
-
     }
 
     public function date_sort($element1, $element2)
@@ -702,7 +667,6 @@ class AndroidController extends Controller
         order::where('order_no', $order_no)->update(['status' => 'picked']);
         $response = ['status_code' => 200];
         return response($response, 200);
-
     }
     public function order_delivered(Request $request)
     {
@@ -710,7 +674,6 @@ class AndroidController extends Controller
         order::where('order_no', $order_no)->update(['status' => 'delivered']);
         $response = ['status_code' => 200];
         return response($response, 200);
-
     }
     public function check_deposit(Request $request)
     {
@@ -756,14 +719,12 @@ class AndroidController extends Controller
         unset($order->created_at);
         unset($order->updated_at);
         foreach ($order_details as $products) {
-
             $products->product->thumbnail_image = $this->base_url . $products->product->thumbnail_image;
             $products->product->unit_quantity = $products->unit_quantity;
             $products->product->count = $products->count;
             $products->product->price = $products->price;
             $order_total += $products->count * $products->price;
             array_push($product, $products->product);
-
         }
 
         $order->order_total = $order_total;
@@ -776,7 +737,6 @@ class AndroidController extends Controller
         unset($order->user);
 
         return response($order, 200);
-
     }
     public function get_product_details($id)
     {
@@ -816,12 +776,10 @@ class AndroidController extends Controller
             // }
             $response = ["nav_bar_section" => $nav_bar_section];
             return response($response, 200);
-
         } catch (Throwable $th) {
             Log::error($th);
             $response = ["message" => 'Something Went Wrong'];
             return response($response, 400);
         }
     }
-
 }
