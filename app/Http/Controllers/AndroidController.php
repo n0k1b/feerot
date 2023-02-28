@@ -425,8 +425,8 @@ class AndroidController extends Controller
         $order = order::where('user_id', $user_id)->get();
         $order_list = array();
         for ($i = 0; $i < sizeof($order); $i++) {
-            $order_no = $order[$i]->order_no;
-            $order_detail = order_details::where('order_no', $order_no)->get();
+            $order_id = $order[$i]->id;
+            $order_detail = order_details::where('order_id', $order_id)->get();
             $order_details = array();
             $sub_total = 0;
             for ($j = 0; $j < sizeof($order_detail); $j++) {
